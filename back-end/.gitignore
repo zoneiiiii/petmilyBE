@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+application-aws.yml
+application-credentials.yml
+
 
