@@ -1,0 +1,48 @@
+package com.petmily.backend.member.login.service;
+
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.dto.MemberDto;
+import com.petmily.backend.member.login.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MemberService {
+
+    private final MemberRepository repository;
+    private final PasswordEncoder passwordEncoder; //PW DB 암호화를 위한 Security 제공 PWEncoder 추가
+
+    public MemberService(MemberRepository repository, PasswordEncoder passwordEncoder){
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public long login(MemberDto dto){
+        Member member = repository.findByMemberId(dto.getMemberId());
+        if (member != null && passwordEncoder.matches(dto.getMemberPw(), member.getMemberPw())){
+            return 1;
+        }else {
+            return 0;
+        }
+//        return repository.countByMemberIdAndMemberPw(dto.getMemberId(), dto.getMemberPw());
+    }
+
+    public Member selectMember(MemberDto dto){
+        return repository.findByMemberId(dto.getMemberId());
+    }
+
+    public long findMember(MemberDto dto){
+        return repository.countByMemberIdAndMemberEmail(dto.getMemberId(),dto.getMemberEmail());
+    }
+
+    public int pwChange(MemberDto dto){
+        Member member = repository.findByMemberId(dto.getMemberId());
+        if (member != null){
+            member.setMemberPw(passwordEncoder.encode(dto.getMemberPw()));
+            repository.save(member);
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+}
