@@ -2,6 +2,7 @@ package com.petmily.backend.support.volunteer.controller;
 
 import com.petmily.backend.support.volunteer.service.VolunteerService;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,13 @@ public class VolunteerController {
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNum) {
         volunteerService.increaseViewCount(boardNum);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/write")
+    public ResponseEntity<VolunteerDto> createVolunteer(@RequestBody VolunteerDto volunteerDto, HttpSession session){
+        System.out.println(session.getAttribute("id"));
+        String memberId = (String)session.getAttribute("id");
+        VolunteerDto createdVolunteer = volunteerService.createVolunteer(volunteerDto, memberId);
+        return ResponseEntity.ok(createdVolunteer);
     }
 }

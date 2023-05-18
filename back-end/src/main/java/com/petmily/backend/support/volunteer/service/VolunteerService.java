@@ -1,6 +1,8 @@
 package com.petmily.backend.support.volunteer.service;
 
 
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.volunteer.domain.Volunteer;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
@@ -17,6 +19,9 @@ public class VolunteerService {
 
     @Autowired
     private VolunteerRepository volunteerRepository;
+
+    @Autowired
+    private MemberService memberService;
 
     public List<VolunteerDto> getAllVolunteers(){
         List<Volunteer> volunteers = volunteerRepository.findAll(Sort.by(Sort.Direction.DESC, "volunteerDate"));
@@ -39,6 +44,33 @@ public class VolunteerService {
         volunteer.setVolunteerCount(volunteer.getVolunteerCount() + 1);
         volunteerRepository.save(volunteer);
     }
+
+    public VolunteerDto createVolunteer(VolunteerDto volunteerDto, String memberId){
+        Member member = memberService.getMember(memberId);
+        Volunteer volunteer = new Volunteer();
+
+        volunteer.setMemberNum(member.getMemberNum());
+        volunteer.setBoardId("volunteer");
+        volunteer.setShelterName(volunteerDto.getShelterName());
+        volunteer.setVolunteerNumber(volunteerDto.getVolunteerNumber());
+        volunteer.setVolunteerAge(volunteerDto.getVolunteerAge());
+        volunteer.setVolunteerAddr(volunteerDto.getVolunteerAddr());
+        volunteer.setVolunteerAddrDetail(volunteerDto.getVolunteerAddrDetail());
+        volunteer.setVolunteerSubject(volunteerDto.getVolunteerSubject());
+        volunteer.setVolunteerContent(volunteerDto.getVolunteerContent());
+        volunteer.setVolunteerCount(0);
+        volunteer.setVolunteerDate(volunteerDto.getVolunteerDate());
+        volunteer.setImgThumbnail(volunteerDto.getImgThumbnail());
+        volunteer.setVolunteerStartPeriod(volunteerDto.getVolunteerStartPeriod());
+        volunteer.setVolunteerEndPeriod(volunteerDto.getVolunteerEndPeriod());
+        volunteer.setVolunteerStatus(volunteerDto.getVolunteerStatus());
+
+        volunteerRepository.save(volunteer);
+
+        return convertToDto(volunteer);
+    }
+
+
 
     private VolunteerDto convertToDto(Volunteer volunteer) {
 
