@@ -16,6 +16,12 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,6 +67,16 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-aws-autoconfigure</artifactId>
 			<version>2.2.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.iamport</groupId>
+			<artifactId>iamport-rest-client-java</artifactId>
+			<version>0.2.22</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
 		</dependency>
 
 	</dependencies>
