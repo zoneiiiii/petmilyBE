@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/upload")
@@ -29,13 +30,17 @@ public class FileUploadController {
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file){
         try{
             String folderName = "petmily";
-            String fileName=file.getOriginalFilename();
+            String originalFileName = file.getOriginalFilename(); // 확장자 포함 기존 파일 이름
+            String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //파일 확장자 분리
+
+            String fileName= UUID.randomUUID().toString() + extension;
             String fileKey = folderName + "/" + fileName;
             String fileUrl = "https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/"+ fileKey;
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
             amazonS3Client.putObject(bucket + "/"+ folderName, fileName, file.getInputStream(),metadata);
+            System.out.println("파일 업로드 완료");
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e){
             e.printStackTrace();;
