@@ -6,6 +6,8 @@ import com.petmily.backend.member.login.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class MemberService {
 
@@ -45,4 +47,16 @@ public class MemberService {
             return 0;
         }
     }
+
+    public Member getMember(String memberId){
+       Member member = repository.findByMemberId(memberId);
+        if(member == null){
+            throw new NoSuchElementException("해당 멤버ID 에 맞는 정보를 찾을 수 없습니다. : " + memberId);
+        }
+
+        return member;
+    }
+
+
+
 }
