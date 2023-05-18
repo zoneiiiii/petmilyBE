@@ -1,8 +1,5 @@
 package com.petmily.backend.support.volunteerReview.service;
 
-
-import com.petmily.backend.support.volunteer.dto.VolunteerDto;
-import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
 import com.petmily.backend.support.volunteerReview.domain.VolunteerReview;
 import com.petmily.backend.support.volunteerReview.dto.VolunteerReviewDto;
 import com.petmily.backend.support.volunteerReview.repository.VolunteerReviewRepository;
