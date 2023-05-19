@@ -8,7 +8,10 @@ import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -70,6 +73,15 @@ public class VolunteerService {
         return convertToDto(volunteer);
     }
 
+    public void deleteVoulunteerById(Long boardNum, String loggedInUserId){
+        Member member = memberService.getMember(loggedInUserId); //로그인한 사용자 정보 가져오기
+        Volunteer volunteer = volunteerRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+        if (!member.getMemberNum().equals(volunteer.getMemberNum())) {
+            throw new AccessDeniedException("해당 게시글을 삭제할 권한이 없습니다.");
+        }
+        volunteerRepository.delete(volunteer);
+    }
 
 
     private VolunteerDto convertToDto(Volunteer volunteer) {
