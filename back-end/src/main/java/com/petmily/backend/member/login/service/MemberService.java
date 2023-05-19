@@ -12,6 +12,8 @@ import com.petmily.backend.member.login.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class MemberService {
 
@@ -52,6 +54,16 @@ public class MemberService {
         }
     }
     
+<<<<<<< HEAD
+    public Member getMember(String memberId){
+        Member member = repository.findByMemberId(memberId);
+         if(member == null){
+             throw new NoSuchElementException("해당 멤버ID 에 맞는 정보를 찾을 수 없습니다. : " + memberId);
+         }
+
+         return member;
+     }
+=======
     //@Transactional
     public boolean updateMember(Long memberNum, MemberUpdateRequest request) {
         Optional<Member> optionalMember = repository.findById(memberNum);
@@ -67,4 +79,5 @@ public class MemberService {
         }
         return false;
     }
+>>>>>>> 472094534c347628ecb765fb876e6d6edb279bfb
 }
