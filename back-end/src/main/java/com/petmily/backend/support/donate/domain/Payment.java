@@ -22,22 +22,22 @@ public class Payment {
     @Column(nullable = false)
     private String merchantUid;
 
-    @Column
-    private String tid;
+    @Column(nullable = false)
+    private String impUid;
 
     @Column
     private String paymentState;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column
+    @Column(nullable = false)
     private LocalDateTime paymentDate;
 
-    public Payment(Long orderNum, String merchantUid, String tid, String paymentState, BigDecimal amount, LocalDateTime paymentDate) {
+    public Payment(Long orderNum, String merchantUid, String impUid, String paymentState, BigDecimal amount, LocalDateTime paymentDate) {
         this.orderNum = orderNum;
         this.merchantUid = merchantUid;
-        this.tid = tid;
+        this.impUid = impUid;
         this.paymentState = paymentState;
         this.amount = amount;
         this.paymentDate = paymentDate;
