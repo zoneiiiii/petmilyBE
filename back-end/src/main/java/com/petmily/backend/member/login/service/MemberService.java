@@ -1,10 +1,18 @@
 package com.petmily.backend.member.login.service;
 
-import com.petmily.backend.member.login.domain.Member;
-import com.petmily.backend.member.login.dto.MemberDto;
-import com.petmily.backend.member.login.repository.MemberRepository;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.dto.MemberDto;
+import com.petmily.backend.member.login.dto.MemberUpdateRequest;
+import com.petmily.backend.member.login.repository.MemberRepository;
+
+import jakarta.transaction.Transactional;
+
+import java.util.NoSuchElementException;
 
 import java.util.NoSuchElementException;
 
@@ -47,16 +55,29 @@ public class MemberService {
             return 0;
         }
     }
-
+    
     public Member getMember(String memberId){
-       Member member = repository.findByMemberId(memberId);
-        if(member == null){
-            throw new NoSuchElementException("해당 멤버ID 에 맞는 정보를 찾을 수 없습니다. : " + memberId);
+        Member member = repository.findByMemberId(memberId);
+         if(member == null){
+             throw new NoSuchElementException("해당 멤버ID 에 맞는 정보를 찾을 수 없습니다. : " + memberId);
+         }
+
+         return member;
+     }
+
+    //@Transactional
+    public boolean updateMember(Long memberNum, MemberUpdateRequest request) {
+        Optional<Member> optionalMember = repository.findById(memberNum);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.setMemberNickname(request.getMemberNickname());
+            member.setMemberPw(passwordEncoder.encode(request.getMemberPw()));
+            member.setMemberEmail(request.getMemberEmail());
+            member.setMemberTel(request.getMemberTel());
+            member.setMemberImg(request.getMemberImg());
+            repository.save(member);
+            return true;
         }
-
-        return member;
+        return false;
     }
-
-
-
 }
