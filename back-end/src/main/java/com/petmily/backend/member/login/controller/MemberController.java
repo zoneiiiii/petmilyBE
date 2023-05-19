@@ -5,6 +5,8 @@ import com.petmily.backend.member.login.dto.MemberDto;
 import com.petmily.backend.member.login.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -30,6 +32,38 @@ public class MemberController {
         }
         return loginResult;
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        httpSession.invalidate(); //로그아웃시 httpSession값 초기화
+        return "로그아웃 성공";
+    }
+
+    @GetMapping("/check-login") //로그인 되어있는지 검사 되어있을때 true 아닐때 false 반환
+    public ResponseEntity<Boolean> checkLoginStatus(){
+        String loggedInUser = (String) httpSession.getAttribute("id");
+
+        if (loggedInUser != null){
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+
+    }
+
+    @GetMapping("/get-usernum") //member 식별자 가져옴 (작성자 확인하는 경우 비교를 위함)
+    public ResponseEntity<Long> getLoggedInUserNum(){
+        String loggedInUserId = (String) httpSession.getAttribute("id");
+
+        if(loggedInUserId != null){
+            Member member = memberService.getMember(loggedInUserId); // 세션에서 가져온 userId를 getMember 메소드에 전달하여, member 객체값을 받는다.
+            Long memberNum = member.getMemberNum(); // 가져온 객체에서 해당 Id의 memberNum의 값을 가져온다.
+            return new ResponseEntity<>(memberNum, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
 
     @PostMapping("/selectMember")
     public Member selectMember(@RequestBody MemberDto dto){
