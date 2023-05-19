@@ -22,7 +22,6 @@ public class Member {
     @Temporal(TemporalType.DATE)
     private Date memberBirth;
     private String memberTel;
-    private String memberAddr;
     private String memberRole;
     private String memberImg;
 

@@ -1,10 +1,16 @@
 package com.petmily.backend.member.login.service;
 
-import com.petmily.backend.member.login.domain.Member;
-import com.petmily.backend.member.login.dto.MemberDto;
-import com.petmily.backend.member.login.repository.MemberRepository;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.dto.MemberDto;
+import com.petmily.backend.member.login.dto.MemberUpdateRequest;
+import com.petmily.backend.member.login.repository.MemberRepository;
+
+import jakarta.transaction.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -48,6 +54,7 @@ public class MemberService {
         }
     }
     
+<<<<<<< HEAD
     public Member getMember(String memberId){
         Member member = repository.findByMemberId(memberId);
          if(member == null){
@@ -56,4 +63,21 @@ public class MemberService {
 
          return member;
      }
+=======
+    //@Transactional
+    public boolean updateMember(Long memberNum, MemberUpdateRequest request) {
+        Optional<Member> optionalMember = repository.findById(memberNum);
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.setMemberNickname(request.getMemberNickname());
+            member.setMemberPw(passwordEncoder.encode(request.getMemberPw()));
+            member.setMemberEmail(request.getMemberEmail());
+            member.setMemberTel(request.getMemberTel());
+            member.setMemberImg(request.getMemberImg());
+            repository.save(member);
+            return true;
+        }
+        return false;
+    }
+>>>>>>> 472094534c347628ecb765fb876e6d6edb279bfb
 }
