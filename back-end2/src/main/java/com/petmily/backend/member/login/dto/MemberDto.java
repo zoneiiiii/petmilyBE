@@ -1,28 +1,32 @@
-package com.petmily.backend.member.login.domain;
+package com.petmily.backend.member.login.dto;
 
-import jakarta.persistence.*;
-import lombok.Data;
 import java.util.Date;
 
+import org.jetbrains.annotations.NotNull;
+
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.Data;
+
 @Data
-@Entity
-@Table(name="member")
-public class Member {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberNum;
-
-    private String memberId;
+public class MemberDto {
+	@NotNull
+	private String memberId;
+	@NotNull
     private String memberPw;
+	@NotNull
     private String memberNickname;
+	@NotNull
     private String memberEmail;
+	@NotNull
     private String memberName;
+	@NotNull
     private String memberGender;
+	@NotNull
     @Temporal(TemporalType.DATE)
     private Date memberBirth;
+	@NotNull
     private String memberTel;
     private String memberRole;
     private String memberImg;
-
 }

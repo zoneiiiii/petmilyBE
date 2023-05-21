@@ -80,4 +80,26 @@ public class MemberService {
         }
         return false;
     }
+    
+    public long register(MemberDto dto) {
+		long idCheck = repository.idCheck(dto.getMemberId());
+		long emailCheck = repository.emailCheck(dto.getMemberEmail());
+		long nicknameCheck = repository.nicknameCheck(dto.getMemberNickname());
+		long telCheck = repository.telCheck(dto.getMemberTel());
+		
+		if (idCheck > 0) {
+			return 1;
+		} else if (emailCheck > 0) {
+			return 2;
+		} else if (nicknameCheck > 0) {
+			return 3;
+		} else if (telCheck > 0) {
+			return 4;
+		} else {
+			repository.register(dto.getMemberId(), passwordEncoder.encode(dto.getMemberPw()), dto.getMemberNickname(), dto.getMemberEmail(),
+					dto.getMemberName(), dto.getMemberGender(), dto.getMemberBirth(), dto.getMemberTel());
+			return 0;
+			
+		}
+	}
 }
