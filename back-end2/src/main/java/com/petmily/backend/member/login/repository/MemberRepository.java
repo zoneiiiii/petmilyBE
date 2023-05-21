@@ -46,4 +46,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
  	// 전화번호 중복체크
  	@Query("select count(m) from Member m where m.memberTel = :memberTel")
  	long telCheck(@Param("memberTel") String memberTel);
+ 	
 }
