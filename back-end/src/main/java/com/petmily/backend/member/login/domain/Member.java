@@ -24,22 +24,14 @@ private Long memberNum;
 	
     private String memberRole;
     private String memberImg;
-	@NotNull
     private String memberId;
-	@NotNull
     private String memberPw;
-	@NotNull
     private String memberNickname;
-	@NotNull
     private String memberEmail;
-	@NotNull
     private String memberName;
-	@NotNull
     private String memberGender;
-	@NotNull
     @Temporal(TemporalType.DATE)
     private Date memberBirth;
-	@NotNull
     private String memberTel;
 
 }

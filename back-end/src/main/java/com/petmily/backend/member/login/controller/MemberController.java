@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.dto.MemberDto;
+import com.petmily.backend.member.login.dto.MemberRegister;
 import com.petmily.backend.member.login.dto.MemberUpdateRequest;
 import com.petmily.backend.member.login.service.MemberService;
 
@@ -100,7 +101,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public long register(@Validated @RequestBody MemberDto dto) {
-    	return memberService.register(dto);
+    public long register(@Validated @RequestBody MemberRegister register) {
+    	return memberService.register(register);
     }
 }
