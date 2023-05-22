@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.dto.MemberDto;
+import com.petmily.backend.member.login.dto.MemberRegister;
 import com.petmily.backend.member.login.dto.MemberUpdateRequest;
 import com.petmily.backend.member.login.repository.MemberRepository;
 
@@ -81,11 +82,11 @@ public class MemberService {
         return false;
     }
     
-    public long register(MemberDto dto) {
-		long idCheck = repository.idCheck(dto.getMemberId());
-		long emailCheck = repository.emailCheck(dto.getMemberEmail());
-		long nicknameCheck = repository.nicknameCheck(dto.getMemberNickname());
-		long telCheck = repository.telCheck(dto.getMemberTel());
+    public long register(MemberRegister register) {
+		long idCheck = repository.idCheck(register.getMemberId());
+		long emailCheck = repository.emailCheck(register.getMemberEmail());
+		long nicknameCheck = repository.nicknameCheck(register.getMemberNickname());
+		long telCheck = repository.telCheck(register.getMemberTel());
 		
 		if (idCheck > 0) {
 			return 1;
@@ -96,8 +97,8 @@ public class MemberService {
 		} else if (telCheck > 0) {
 			return 4;
 		} else {
-			repository.register(dto.getMemberId(), passwordEncoder.encode(dto.getMemberPw()), dto.getMemberNickname(), dto.getMemberEmail(),
-					dto.getMemberName(), dto.getMemberGender(), dto.getMemberBirth(), dto.getMemberTel());
+			repository.register(register.getMemberId(), passwordEncoder.encode(register.getMemberPw()), register.getMemberNickname(), register.getMemberEmail(),
+					register.getMemberName(), register.getMemberGender(), register.getMemberBirth(), register.getMemberTel());
 			return 0;
 			
 		}
