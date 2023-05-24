@@ -56,4 +56,13 @@ public class VolunteerController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{boardNum}") //게시글 수정
+    public ResponseEntity<VolunteerDto> updateVolunteer(@PathVariable Long boardNum, @RequestBody VolunteerDto volunteerDto){
+        String loggedInUserId = (String) httpSession.getAttribute("id");
+        VolunteerDto updatedVolunteer = volunteerService.updateVolunteer(boardNum, volunteerDto, loggedInUserId);
+        log.info("사용자 {} boardNum {} 수정 완료 ", loggedInUserId, boardNum);
+        return  ResponseEntity.ok(updatedVolunteer);
+    }
+
+
 }
