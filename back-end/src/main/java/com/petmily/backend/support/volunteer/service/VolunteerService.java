@@ -83,6 +83,32 @@ public class VolunteerService {
         volunteerRepository.delete(volunteer);
     }
 
+    public VolunteerDto updateVolunteer(Long boardNum, VolunteerDto volunteerDto, String loggedInUserId){
+        Member member = memberService.getMember(loggedInUserId);
+        Volunteer volunteer = volunteerRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+        if(!member.getMemberNum().equals(volunteer.getMemberNum())){
+            throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다.");
+        }
+        System.out.println(volunteerDto);
+        volunteer.setShelterName(volunteerDto.getShelterName());
+        volunteer.setVolunteerNumber(volunteerDto.getVolunteerNumber());
+        volunteer.setVolunteerAge(volunteerDto.getVolunteerAge());
+        volunteer.setVolunteerAddr(volunteerDto.getVolunteerAddr());
+        volunteer.setVolunteerAddrDetail(volunteerDto.getVolunteerAddrDetail());
+        volunteer.setVolunteerSubject(volunteerDto.getVolunteerSubject());
+        volunteer.setVolunteerContent(volunteerDto.getVolunteerContent());
+//        volunteer.setVolunteerDate(volunteerDto.getVolunteerDate());
+        volunteer.setImgThumbnail(volunteerDto.getImgThumbnail());
+        volunteer.setVolunteerStartPeriod(volunteerDto.getVolunteerStartPeriod());
+        volunteer.setVolunteerEndPeriod(volunteerDto.getVolunteerEndPeriod());
+        volunteer.setVolunteerStatus(volunteerDto.getVolunteerStatus());
+
+        volunteerRepository.save(volunteer);
+
+        return convertToDto(volunteer);
+    }
+
 
     private VolunteerDto convertToDto(Volunteer volunteer) {
 
