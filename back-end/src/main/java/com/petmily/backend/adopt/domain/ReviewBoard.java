@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name="reviewboard")
-public class Review {
+public class ReviewBoard {
 		@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long boardNum;
@@ -51,7 +51,7 @@ public class Review {
 	
 	    
 	    @Builder
-	    public Review(Long boardNum, Long memberNum, String boardId, String reviewSubject, String reviewContent, String imgThumbnail) {
+	    public ReviewBoard(Long boardNum, Long memberNum, String boardId, String reviewSubject, String reviewContent, String imgThumbnail) {
 	        this.boardNum = boardNum;
 	        this.memberNum = memberNum;
 	        this.boardId = boardId;
