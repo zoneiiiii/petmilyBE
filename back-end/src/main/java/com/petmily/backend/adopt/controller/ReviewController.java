@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.petmily.backend.adopt.domain.ReviewBoard;
 import com.petmily.backend.adopt.service.ReviewService;
+import com.petmily.backend.community.missing.board.MissingBoardDetail;
 
 
 
@@ -27,6 +28,11 @@ public class ReviewController {
 	public ReviewController(ReviewService reviewService) {
 		this.reviewService = reviewService;
 	}
+	
+	@GetMapping("/{boardNum}")
+    public ReviewBoard getBoard(@PathVariable Long boardNum) {
+        return reviewService.getReviewBoard(boardNum);
+    }
 	
 	@PostMapping("/insert")
 	public void writeReview(@RequestBody ReviewBoard review) {

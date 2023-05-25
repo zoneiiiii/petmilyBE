@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.petmily.backend.adopt.domain.ReviewBoard;
 import com.petmily.backend.adopt.repository.ReviewRepository;
+import com.petmily.backend.community.missing.board.MissingBoard;
 
 import jakarta.transaction.Transactional;
 
@@ -38,6 +39,13 @@ public class ReviewService {
     public void deleteAllByBoardNum(Long boardNum){
     	repository.deleteAllByBoardNum(boardNum);
     }
+    
+    @Transactional 
+    public ReviewBoard getReviewBoard(Long boardNum) {
+    	ReviewBoard getReviewDetail = repository.findByBoardNum(boardNum);
+    	repository.updateBoardCount(boardNum);
+        return getReviewDetail;
+    }
    
     @Transactional
     public void updateReview(Long boardNum, ReviewBoard review) {
@@ -46,9 +54,5 @@ public class ReviewService {
         findReview.setReviewContent(review.getReviewContent());
         findReview.setImgThumbnail(review.getImgThumbnail());
     }
-//    @Transactional
-//    public void updateReview(Long boardNum, Review review) {
-//        repository.updateReview(boardNum, review.getReviewSubject(), review.getReviewContent(), review.getImgThumbnail());
-//    }
 
 }
