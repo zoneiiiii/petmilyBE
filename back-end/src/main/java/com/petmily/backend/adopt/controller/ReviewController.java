@@ -3,6 +3,7 @@ package com.petmily.backend.adopt.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.petmily.backend.adopt.domain.ReviewBoard;
+import com.petmily.backend.adopt.dto.ReviewBoardList;
+import com.petmily.backend.adopt.dto.ReviewDto;
 import com.petmily.backend.adopt.service.ReviewService;
-import com.petmily.backend.community.missing.board.MissingBoardDetail;
+
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -23,10 +27,12 @@ import com.petmily.backend.community.missing.board.MissingBoardDetail;
 @RequestMapping("/board/review")
 public class ReviewController {
 	private final ReviewService reviewService;
+	private final HttpSession httpSession;
 
 	@Autowired
-	public ReviewController(ReviewService reviewService) {
+	public ReviewController(ReviewService reviewService, HttpSession httpSession) {
 		this.reviewService = reviewService;
+		this.httpSession = httpSession;
 	}
 	
 	@GetMapping("/{boardNum}")
@@ -34,16 +40,24 @@ public class ReviewController {
         return reviewService.getReviewBoard(boardNum);
     }
 	
+//	@PostMapping("/insert")
+//	public void writeReview(@RequestBody ReviewBoard review, HttpSession session) {
+//		System.out.println(session.getAttribute("id"));
+//		String memberId = (String)session.getAttribute("id");
+//		reviewService.writeReview(review);	 
+//	}
 	@PostMapping("/insert")
-	public void writeReview(@RequestBody ReviewBoard review) {
-		reviewService.writeReview(review);
-		 System.out.println("입력완료");
-		 
-	}
+    public ResponseEntity<ReviewDto> writeReview(@RequestBody ReviewDto reviewDto, HttpSession session){
+        System.out.println(session.getAttribute("id"));
+        String memberId = (String)session.getAttribute("id");
+        ReviewDto writeReview = reviewService.writeReview(reviewDto, memberId);
+        return ResponseEntity.ok(writeReview);
+    }
 	 
 	@GetMapping("/list")
-	public List<ReviewBoard> boardList(Model model){
-		List<ReviewBoard> reviewList = reviewService.reviewList();
+	public List<ReviewBoardList> boardList(Model model, HttpSession session){
+		 String memberId = (String)session.getAttribute("id");
+		List<ReviewBoardList> reviewList = reviewService.reviewList();
 	    model.addAttribute("list",reviewList);
 	    return reviewList;
 	}
