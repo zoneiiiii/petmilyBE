@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long> {
-	// 게시글 전체 조회(Read)
-//	List<MissingBoard> findAllByOrderByBoardNumDesc(); 
+	
+	// 게시글 전체 조회
 	@Query(
 			nativeQuery=true,
 			value="SELECT mb.boardNum, mb.boardId, mb.boardSubject, mb.boardCount, mb.boardDate, mb.boardStatus, mb.imgThumbnail, m.memberNickname "
@@ -19,38 +19,23 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
 					+ "JOIN member m ON mb.memberNum = m.memberNum")
 	List<MissingBoardList> getMissingBoards();
 	
-	// 게시글 조회(Read)
-//    MissingBoard findByBoardNum(Long boardNum);
+	// 게시글 조회
 	@Query(
 			nativeQuery=true,
 			value="SELECT mb.*, m.memberNickName "
 			+ "FROM missingboard mb "
 			+ "JOIN member m ON mb.memberNum = m.memberNum WHERE mb.boardNum = :boardNum")
 	MissingBoardDetail findMissingBoardDetail(@Param("boardNum") Long boardNum);
-	
-    
-    // 게시글 조회(Read)
-    MissingBoard findByBoardId(String boardId); 
-    
-    MissingBoard findByBoardNumAndMemberNum(Long boardNum, Long memberNum);
-    
-    // 게시글 삭제(Delete)
-    void deleteByBoardNum(Long boardNum); 
-    
-    // 게시글 생성
-    MissingBoard save(MissingBoard missingBoard);
-//    @Modifying
-//    @Query("INSERT INTO MissingBoard(memberNum, boardId, boardSubject, boardContent, boardCount, boardDate, boardStatus, boardLocation, boardSpecies, boardAge, boardGender, imgThumbnail) "
-//    		+ "VALUES :#{#missingBoard.toInsertQuery()}")
-//    void createMissingBoard(@Param("missingBoard") MissingBoard missingBoard);	
     
     // 게시글 수정
-    @Modifying
-    @Query("UPDATE MissingBoard m SET m.boardContent = :boardContent, m.imgThumbnail = :imgThumbnail WHERE m.boardNum = :boardNum AND m.memberNum = :memberNum")
-    void updateMissingBoard(Long boardNum, Long memberNum, String boardContent, String imgThumbnail);
+//    @Modifying
+//    @Query("UPDATE MissingBoard m SET m.boardContent = :boardContent, m.imgThumbnail = :imgThumbnail WHERE m.boardNum = :boardNum AND m.memberNum = :memberNum")
+//    void updateMissingBoard(Long boardNum, Long memberNum, String boardContent, String imgThumbnail);
     
     // 조회수 증가
     @Modifying
-    @Query("UPDATE MissingBoard m SET m.boardCount = m.boardCount + 1 WHERE m.boardNum = :boardNum")
+    @Query(
+    		nativeQuery=true,
+    		value="UPDATE MissingBoard mb SET mb.boardCount = mb.boardCount + 1 WHERE mb.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);	
 }

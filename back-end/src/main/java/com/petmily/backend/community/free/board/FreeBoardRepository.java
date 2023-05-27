@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.petmily.backend.community.missing.board.MissingBoardDetail;
-
 @Repository
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 
@@ -35,14 +33,6 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     		nativeQuery=true,
     		value="UPDATE freeboard f SET f.freeCount = f.freeCount + 1 WHERE f.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
-    
-    // 게시글 생성
-//    @Modifying
-//    @Query(
-//    		nativeQuery=true,
-//    		value="insert into freeboard(boardId, freeSubject, freeContent, freeCount, freeDate, imgThumbnail, memberNum)"
-//    				+ "values("
-//    		)
     
 	
 }
