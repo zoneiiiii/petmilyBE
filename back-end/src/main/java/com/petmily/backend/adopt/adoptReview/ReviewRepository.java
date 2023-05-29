@@ -34,7 +34,7 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
     @Query("UPDATE ReviewBoard m SET m.reviewCount = m.reviewCount + 1 WHERE m.boardNum = :boardNum")
     int updateBoardCount(@Param("boardNum") Long boardNum);
     
-    List<ReviewBoardList> findByTitleContaining(String keyword);
+//    List<ReviewBoardList> findByTitleContaining(String keyword);
 
 
 

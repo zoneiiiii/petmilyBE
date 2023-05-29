@@ -68,12 +68,12 @@ public class ReviewController {
 		reviewService.updateReview(boardNum, review);
 	}
 	
-	@GetMapping("/search")
-	public String search(String keyword, Model model) {
-		List<ReviewBoardList> searchList = reviewService.search(keyword);
-	 
-		model.addAttribute("searchList", searchList);
-	 
-		return "search";
-	}
+//	@GetMapping("/search")
+//	public String search(String keyword, Model model) {
+//		List<ReviewBoardList> searchList = reviewService.search(keyword);
+//	 
+//		model.addAttribute("searchList", searchList);
+//	 
+//		return "search";
+//	}
 }

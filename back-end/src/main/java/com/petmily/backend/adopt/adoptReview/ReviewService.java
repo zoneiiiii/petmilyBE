@@ -80,12 +80,12 @@ public class ReviewService {
         findReview.setImgThumbnail(review.getImgThumbnail());
     }
     
-    @Transactional
-    public List<ReviewBoardList> search(String keyword) {
- 
-    	List<ReviewBoardList> reviewBoardList = repository.findByTitleContaining(keyword);
-    	return reviewBoardList;
-    }
+//    @Transactional
+//    public List<ReviewBoardList> search(String keyword) {
+// 
+//    	List<ReviewBoardList> reviewBoardList = repository.findByTitleContaining(keyword);
+//    	return reviewBoardList;
+//    }
     
 	private ReviewDto convertToDto(ReviewBoard reviewboard){
 		 
