@@ -50,6 +50,8 @@ public class MissingBoardService {
     	missingBoard.setBoardSpecies(missingBoardDto.getBoardSpecies());
     	missingBoard.setBoardGender(missingBoardDto.getBoardGender());
     	missingBoard.setBoardStatus(missingBoardDto.getBoardStatus());
+    	missingBoard.setBoardName(missingBoardDto.getBoardName());
+    	missingBoard.setBoardAge(missingBoardDto.getBoardAge());
     	
     	missingBoardRepository.save(missingBoard);
 
@@ -85,6 +87,8 @@ public class MissingBoardService {
  	    	missingBoard.setBoardSpecies(missingBoardDto.getBoardSpecies());
  	    	missingBoard.setBoardGender(missingBoardDto.getBoardGender());
  	    	missingBoard.setBoardStatus(missingBoardDto.getBoardStatus());
+ 	    	missingBoard.setBoardName(missingBoardDto.getBoardName());
+ 	    	missingBoard.setBoardAge(missingBoardDto.getBoardAge());
  	    	missingBoardRepository.save(missingBoard);
 
  	        return convertToDto(missingBoard);
@@ -105,6 +109,8 @@ public class MissingBoardService {
     	missingBoardDto.setBoardSpecies(missingBoard.getBoardSpecies());
     	missingBoardDto.setBoardGender(missingBoard.getBoardGender());
     	missingBoardDto.setBoardStatus(missingBoard.getBoardStatus());
+    	missingBoardDto.setBoardName(missingBoard.getBoardName());
+    	missingBoardDto.setBoardAge(missingBoard.getBoardAge());
 
         return missingBoardDto;
     }

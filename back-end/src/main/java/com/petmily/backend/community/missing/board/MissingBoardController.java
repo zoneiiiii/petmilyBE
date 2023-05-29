@@ -2,7 +2,6 @@ package com.petmily.backend.community.missing.board;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ public class MissingBoardController {
 	private final MissingBoardService missingBoardService;
 	private final HttpSession httpSession;
 	
-	@Autowired
 	public MissingBoardController(MissingBoardService missingBoardService, HttpSession httpSession) {
 		this.missingBoardService = missingBoardService;
 		this.httpSession = httpSession;
@@ -65,7 +63,7 @@ public class MissingBoardController {
     
     //게시글 수정
   	@PutMapping("/{boardNum}") 
-    public ResponseEntity<MissingBoardDto> updateFreeBoard(@PathVariable Long boardNum, @RequestBody MissingBoardDto missingBoardDto){
+    public ResponseEntity<MissingBoardDto> updateMissingBoard(@PathVariable Long boardNum, @RequestBody MissingBoardDto missingBoardDto){
   		String loggedInUserId = (String) httpSession.getAttribute("id");
   		MissingBoardDto updatedMissingBoard = missingBoardService.updateMissingBoard(boardNum, missingBoardDto, loggedInUserId);
   		log.info("사용자 {} boardNum {} 수정 완료 ", loggedInUserId, boardNum);

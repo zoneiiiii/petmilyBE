@@ -59,6 +59,7 @@ public class MemberService {
         }
     }
     
+    
     public Member getMember(String memberId){
         Member member = repository.findByMemberId(memberId);
          if(member == null){
@@ -67,6 +68,15 @@ public class MemberService {
 
          return member;
      }
+    public Member getMemberByNum(Long memberNum){
+        Member member = repository.findByMemberNum(memberNum);
+        if(member == null){
+            throw new NoSuchElementException("해당 멤버번호 에 맞는 정보를 찾을 수 없습니다. : " + memberNum);
+        }
+
+        return member;
+    }
+
 
     public boolean updateMember(Long memberNum, MemberUpdateRequest request) {
         Optional<Member> optionalMember = repository.findById(memberNum);
