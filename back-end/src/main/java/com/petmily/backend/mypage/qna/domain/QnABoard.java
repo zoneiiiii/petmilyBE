@@ -20,21 +20,26 @@ public class QnABoard {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long boardNum;
 
+	@Column(nullable = false)
 	private Long memberNum;
 
+	@Column(nullable = false)
 	private String boardId;
 
+	@Column(nullable = false)
 	private String qnaSubject;
 	
-	@Column(columnDefinition = "LONGTEXT")
+	@Column(columnDefinition = "LONGTEXT", nullable = false)
 	private String qnaContent;
 
+	@Column(nullable = false)
 	private Boolean qnaStatus;
 	
 	@Column(length = 1000)
 	private String qnaImg;
 	
 	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date qnaDate;
 
 

@@ -10,6 +10,8 @@ import com.petmily.backend.member.login.dto.MemberDto;
 import com.petmily.backend.member.login.dto.MemberRegister;
 import com.petmily.backend.member.login.dto.MemberUpdateRequest;
 import com.petmily.backend.member.login.repository.MemberRepository;
+import com.petmily.backend.support.volunteer.domain.Volunteer;
+import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 
 import jakarta.transaction.Transactional;
 
@@ -57,6 +59,7 @@ public class MemberService {
         }
     }
     
+    
     public Member getMember(String memberId){
         Member member = repository.findByMemberId(memberId);
          if(member == null){
@@ -65,7 +68,6 @@ public class MemberService {
 
          return member;
      }
-
     public Member getMemberByNum(Long memberNum){
         Member member = repository.findByMemberNum(memberNum);
         if(member == null){
@@ -75,7 +77,7 @@ public class MemberService {
         return member;
     }
 
-    //@Transactional
+
     public boolean updateMember(Long memberNum, MemberUpdateRequest request) {
         Optional<Member> optionalMember = repository.findById(memberNum);
         if (optionalMember.isPresent()) {
@@ -112,4 +114,23 @@ public class MemberService {
 			
 		}
 	}
+    
+    public int updateValid(MemberUpdateRequest request) {
+    	long nicknameChk = repository.nicknameChk(request.getMemberNickname(), request.getMemberNum());
+		long emailChk = repository.emailChk(request.getMemberEmail(), request.getMemberNum());
+		long telChk = repository.telChk(request.getMemberTel(), request.getMemberNum());
+		
+		if (nicknameChk > 0) {
+			return 1;
+		} else if (emailChk > 0) {
+			return 2;
+		} else if (telChk > 0) {
+			return 3;
+		} else return 0;
+	}
+    
+    public Member getMemberInfo(Long memberNum) {
+    	return repository.findById(memberNum).orElse(null);
+    }
+
 }
