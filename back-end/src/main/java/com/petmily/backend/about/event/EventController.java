@@ -1,4 +1,4 @@
-package com.petmily.backend.about.notice;
+package com.petmily.backend.about.event;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -13,35 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.petmily.backend.about.dto.NoticeForm;
-import com.petmily.backend.about.dto.NoticeList;
-import com.petmily.backend.about.dto.NoticeView;
+import com.petmily.backend.about.dto.EventForm;
+import com.petmily.backend.about.dto.EventList;
+import com.petmily.backend.about.dto.EventView;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/notice")
+@RequestMapping("/event")
 @RequiredArgsConstructor
 @RestController
-public class NoticeController {
+public class EventController {
 	
 	@Autowired
-	private final NoticeService noticeService;
+	private final EventService eventService;
 	
 	@Autowired
 	private final HttpSession httpSession;
 	
 	@GetMapping("/list")
-	public Page<NoticeList> getList(
+	public Page<EventList> getList(
 			@RequestParam(value="page", defaultValue="0") int page, 
 			@RequestParam(value="limit", defaultValue="20") int limit, 
 			@RequestParam(value="search", defaultValue="") String search, 
 			@RequestParam(value="search_mode", defaultValue="subject") String search_mode) {
-		Page<NoticeList> paging = null;
+		Page<EventList> paging = null;
 		try {
 			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("&", " ").trim().replaceAll("\\s+", "|");
-			paging = this.noticeService.getList(page, limit, keyword, search_mode);
+			paging = this.eventService.getList(page, limit, keyword, search_mode);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,15 +50,15 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/view")
-	public NoticeView viewNotice(@RequestParam(value="no")Long no) {
-		return this.noticeService.viewNotice(no);
+	public EventView viewEvent(@RequestParam(value="no")Long no) {
+		return this.eventService.viewEvent(no);
 	}
 	
 	@PostMapping("/insert")
-	public Boolean insertNotice(@RequestBody@Valid NoticeForm noticeForm, BindingResult bindingResult) {
+	public Boolean insertEvent(@RequestBody@Valid EventForm eventForm, BindingResult bindingResult) {
 		String id = (String)httpSession.getAttribute("id");
 		if(id != null && !bindingResult.hasErrors()) {
-			return this.noticeService.insertNotice(noticeForm, id);
+			return this.eventService.insertEvent(eventForm, id);
 		}
 		else return false;
 	}
@@ -66,22 +66,15 @@ public class NoticeController {
 	@GetMapping("/check-writer")
 	public Boolean checkWriter(@RequestParam(value="no") Long no) {
 		String id = (String)httpSession.getAttribute("id");
-		return this.noticeService.checkWriter(no, id);
+		return this.eventService.checkWriter(no, id);
 	}
 	
 	@PostMapping("/update")
-	public void updateNotice(@RequestBody@Valid NoticeForm noticeForm, BindingResult bindingResult) {
+	public void updateEvent(@RequestBody@Valid EventForm eventForm, BindingResult bindingResult) {
+		System.out.println("no: " + eventForm.getNo());
 		String id = (String)httpSession.getAttribute("id");
 		if(id != null && !bindingResult.hasErrors()) {
-			System.out.println(this.noticeService.updateNotice(noticeForm, id));
+			System.out.println(this.eventService.updateEvent(eventForm, id));
 		}
 	}
-//	@PostMapping("/delete")
-//	public void deleteNotice(Long boardNum) {
-//		return this.noticeService.deleteNotice(boardNum)
-//	}
-//	@GetMapping("/deleteAll")
-//	public void deleteAll() {
-//		return this.noticeService.deleteAll();
-//	}
 }

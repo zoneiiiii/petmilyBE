@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notice {
+public class EventBoard {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long boardNum;
@@ -32,28 +32,31 @@ public class Notice {
 	
 	private String category;
 	private String subject;
+	
 	@Lob
 	@Column(name = "content", columnDefinition = "LONGTEXT")
 	private String content;
+	@Lob
+	@Column(name = "thumbnail", columnDefinition = "LONGTEXT")
+	private String thumbnail;
 	private int count;
 	private LocalDateTime postDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	
 	@Builder
-	public Notice(Long boardNum, String category, Member member, String subject, String content, int count, LocalDateTime postDate) {
+	public EventBoard(Long boardNum, String category, Member member, 
+			String subject, String content, String thumbnail, int count, 
+			LocalDateTime postDate, LocalDateTime startDate, LocalDateTime endDate) {
 		this.boardNum = boardNum;
 		this.member = member;
 		this.category = category;
 		this.subject = subject;
 		this.content = content;
+		this.thumbnail = thumbnail;
 		this.count = count;
 		this.postDate = postDate;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
-	
-//	  no: 101,
-//    memberNo: 1,
-//    category: "notice",
-//    subject: "4월 펫밀리 기부내역",
-//    contents: "4월 많은 분들이 기부해주셨습니다!",
-//    count: 31,
-//    postDate: "2023-05-05",
 }
