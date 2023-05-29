@@ -1,9 +1,9 @@
 package com.petmily.backend.support.donate.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,6 +15,7 @@ public class DonationDto {
     private String donationEmail;
     private Integer donationCost;
     private LocalDateTime donationDate;
+    private Long memberNum;
     private Long paymentNum;
 
 }

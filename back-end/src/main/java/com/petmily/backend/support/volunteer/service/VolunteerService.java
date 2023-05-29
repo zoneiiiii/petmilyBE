@@ -1,12 +1,24 @@
 package com.petmily.backend.support.volunteer.service;
 
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.volunteer.domain.Volunteer;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,18 +32,27 @@ import java.util.stream.Collectors;
 @Service
 public class VolunteerService {
 
-    @Autowired
-    private VolunteerRepository volunteerRepository;
+    private final VolunteerRepository volunteerRepository;
+    private final MemberService memberService;
 
-    @Autowired
-    private MemberService memberService;
+    public VolunteerService (VolunteerRepository volunteerRepository, MemberService memberService){
+        this.volunteerRepository = volunteerRepository;
+        this.memberService = memberService;
+    }
 
-    public List<VolunteerDto> getAllVolunteers(){
-        List<Volunteer> volunteers = volunteerRepository.findAll(Sort.by(Sort.Direction.DESC, "volunteerDate"));
+//    public List<VolunteerDto> getAllVolunteers(){
+//        List<Volunteer> volunteers = volunteerRepository.findAll(Sort.by(Sort.Direction.DESC, "volunteerDate"));
+//
+//        return volunteers.stream()
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//    }
 
-        return volunteers.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public Page<VolunteerDto> getAllVolunteers(int page){
+        Pageable pageable = PageRequest.of(page, 12, Sort.by(Sort.Direction.DESC, "volunteerDate"));
+        Page<Volunteer> volunteers = volunteerRepository.findAll(pageable);
+
+        return volunteers.map(this::convertToDto);
     }
 
     public VolunteerDto getVolunteerById(Long boardNum) {
@@ -73,7 +94,7 @@ public class VolunteerService {
         return convertToDto(volunteer);
     }
 
-    public void deleteVoulunteerById(Long boardNum, String loggedInUserId){
+    public void deleteVolunteerById(Long boardNum, String loggedInUserId){
         Member member = memberService.getMember(loggedInUserId); //로그인한 사용자 정보 가져오기
         Volunteer volunteer = volunteerRepository.findById(boardNum)
                 .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));

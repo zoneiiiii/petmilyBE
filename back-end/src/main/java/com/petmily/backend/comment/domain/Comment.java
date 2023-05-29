@@ -38,12 +38,12 @@ public class Comment {
     @LastModifiedDate
     private LocalDateTime commentUpdate;
 
-    private Integer commentPnum;
+    private Long commentPnum;
 
     private Boolean commentIsSecret;
 
     @Builder
-    public Comment(Member member,String boardId, Long boardNum, String commentContent, Boolean commentIsSecret, Integer commentPnum ){
+    public Comment(Member member,String boardId, Long boardNum, String commentContent, Boolean commentIsSecret, Long commentPnum ){
         this.member = member;
         this.boardId = boardId;
         this.boardNum = boardNum;

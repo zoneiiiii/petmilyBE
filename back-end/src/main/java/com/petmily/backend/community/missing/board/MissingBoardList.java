@@ -8,7 +8,7 @@ public interface MissingBoardList {
 	String getBoardSubject();
 	Integer getBoardCount();
 	LocalDateTime BoardDate();
-	boolean getBoardStatus();
+	Boolean getBoardStatus();
 	String getImgThumbnail();
 	String getMemberNickName();
 }
