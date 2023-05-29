@@ -1,16 +1,19 @@
 package com.petmily.backend.support.donate.controller;
 
-import com.petmily.backend.support.donate.dto.DonationDto;
-import com.petmily.backend.support.donate.dto.DonationRequestDto;
-import com.petmily.backend.support.donate.dto.PaymentDto;
-import com.petmily.backend.support.donate.repository.DonationRepository;
-import com.petmily.backend.support.donate.service.DonationService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.petmily.backend.support.donate.dto.DonationDto;
+import com.petmily.backend.support.donate.dto.DonationRequestDto;
+import com.petmily.backend.support.donate.service.DonationService;
 
 @RestController
 @RequestMapping("/donate")

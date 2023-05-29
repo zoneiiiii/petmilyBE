@@ -1,21 +1,20 @@
 package com.petmily.backend.support.volunteer.service;
 
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.volunteer.domain.Volunteer;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 public class VolunteerService {

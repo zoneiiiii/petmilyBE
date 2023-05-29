@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.petmily.backend.community.missing.board.MissingBoardDetail;
-
 @Repository
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 
