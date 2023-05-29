@@ -15,6 +15,7 @@ public class DonationDto {
     private String donationEmail;
     private Integer donationCost;
     private LocalDateTime donationDate;
+    private Long memberNum;
     private Long paymentNum;
 
 }
