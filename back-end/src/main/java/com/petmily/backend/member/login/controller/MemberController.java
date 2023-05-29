@@ -1,5 +1,6 @@
 package com.petmily.backend.member.login.controller;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -103,5 +104,16 @@ public class MemberController {
     @PostMapping("/register")
     public long register(@Validated @RequestBody MemberRegister register) {
     	return memberService.register(register);
+    }
+    
+    @PostMapping("/updateValid")
+    public long updateValid(@Validated @RequestBody MemberUpdateRequest request) {
+    	return memberService.updateValid(request);
+    }
+    
+    @GetMapping("/memberInfo/{memberNum}")
+    public Member getMemberInfo(@PathVariable Long memberNum){
+    	System.out.println("hello");
+        return memberService.getMemberInfo(memberNum);
     }
 }

@@ -1,8 +1,10 @@
 package com.petmily.backend.community.free.board;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class FreeBoardService {
 	}
 	
 	// 게시글 작성
+	@Transactional
 	 public FreeBoardDto createFreeBoard(FreeBoardDto freeBoardDto, String memberId){
 	        Member member = memberService.getMember(memberId);
 	        FreeBoard freeBoard = new FreeBoard();
@@ -49,6 +52,36 @@ public class FreeBoardService {
 
 	        return convertToDto(freeBoard);
 	    }
+	 
+	// 게시글 삭제
+	@Transactional
+	public void deleteFreeBoardById(Long boardNum, String loggedInUserId) {
+		 Member member = memberService.getMember(loggedInUserId); // 로그인한 사용자 정보 가져오기
+		 FreeBoard freeBoard = freeBoardRepository.findById(boardNum)
+				 .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+		 if (!member.getMemberNum().equals(freeBoard.getMemberNum())) {
+			 throw new AccessDeniedException("해당 게시글을 삭제할 권한이 없습니다.");
+		 }
+		 freeBoardRepository.delete(freeBoard);
+	 }
+	 
+	// 게시글 수정
+	@Transactional
+	public FreeBoardDto updateFreeBoard(Long boardNum, FreeBoardDto freeBoardDto, String loggedInUserId){
+	        Member member = memberService.getMember(loggedInUserId);
+	        FreeBoard freeBoard = freeBoardRepository.findById(boardNum)
+	                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+	        if(!member.getMemberNum().equals(freeBoard.getMemberNum())){
+	            throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다.");
+	        }
+	        System.out.println(freeBoardDto);
+	        freeBoard.setFreeSubject(freeBoardDto.getFreeSubject());
+	        freeBoard.setFreeContent(freeBoardDto.getFreeContent());
+	        freeBoard.setImgThumbnail(freeBoardDto.getImgThumbnail());
+	        freeBoardRepository.save(freeBoard);
+
+	        return convertToDto(freeBoard);
+	}
 	 
 		private FreeBoardDto convertToDto(FreeBoard freeBoard){
 	 
@@ -88,20 +121,3 @@ public class FreeBoardService {
 //		freeBoard.setFreeCount(freeBoard.getFreeCount() + 1);
 //		freeBoardRepository.save(freeBoard);
 //	}
-//	
-//	
-//	private FreeBoardDto convertToDto(FreeBoard freeBoard){
-//
-//		FreeBoardDto freeBoardDto = new FreeBoardDto();
-//		freeBoardDto.setBoardNum(freeBoard.getBoardNum());
-//		freeBoardDto.setMemberNum(freeBoard.getMemberNum());
-//		freeBoardDto.setBoardId(freeBoard.getBoardId());
-//		freeBoardDto.setFreeSubject(freeBoard.getFreeSubject());
-//		freeBoardDto.setFreeContent(freeBoard.getFreeContent());
-//		freeBoardDto.setFreeCount(freeBoard.getFreeCount());
-//		freeBoardDto.setFreeDate(freeBoard.getFreeDate());
-//		freeBoardDto.setImgThumbnail(freeBoard.getImgThumbnail());
-//
-//        return freeBoardDto;
-//    }
-

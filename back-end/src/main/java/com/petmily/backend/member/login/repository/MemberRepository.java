@@ -47,4 +47,17 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// 전화번호 중복체크
 	@Query("select count(m) from Member m where m.memberTel = :memberTel")
 	long telCheck(@Param("memberTel") String memberTel);
+	
+	//회원 정보 수정(자신의 데이터 제외하고 중복체크)
+	// 이메일 중복체크
+	@Query("select count(m) from Member m where m.memberEmail = :memberEmail and memberNum != :memberNum")
+	long emailChk(@Param("memberEmail") String memberEmail, @Param("memberNum") Long memberNum);
+
+	// 닉네임 중복체크
+	@Query("select count(m) from Member m where m.memberNickname = :memberNickname and memberNum != :memberNum")
+	long nicknameChk(@Param("memberNickname") String memberNickname, Long memberNum);
+
+	// 전화번호 중복체크
+	@Query("select count(m) from Member m where m.memberTel = :memberTel and memberNum != :memberNum")
+	long telChk(@Param("memberTel") String memberTel, Long memberNum);
 }

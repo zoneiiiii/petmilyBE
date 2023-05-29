@@ -41,7 +41,7 @@ public class MissingBoard {
     private LocalDateTime boardDate;
     
     @Column
-    private boolean boardStatus;
+    private Boolean boardStatus;
     
     @Column
     private String boardLocation;

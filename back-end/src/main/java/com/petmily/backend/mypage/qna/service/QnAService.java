@@ -17,61 +17,62 @@ import com.petmily.backend.mypage.qna.repository.QnARepository;
 
 @Service
 public class QnAService {
-	 @Autowired
-	    private QnARepository qnaRepository;
+	@Autowired
+	private QnARepository qnaRepository;
 
-	    @Autowired
-	    private MemberService memberService;
+    @Autowired
+    private MemberService memberService;
 
-	    public List<QnADto> getQnAList(){
-	        List<QnABoard> qnaList = qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "boardNum"));
+    public List<QnADto> getQnAList(){
+        List<QnABoard> qnaList = qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "boardNum"));
 
-	        return qnaList.stream()
-	                .map(this::convertToDto)
-	                .collect(Collectors.toList());
-	    }
-	    
-	    public QnADto getQnAById(Long boardNum) {
-	        QnABoard qna = qnaRepository.findById(boardNum)
-	                .orElseThrow(() -> new NoSuchElementException("No QnA found with boardNum: " + boardNum));
+        return qnaList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
-	        return convertToDto(qna);
-	    }
-	    
-	    private QnADto convertToDto(QnABoard qna) {
+    public QnADto getQnAById(Long boardNum) {
+        QnABoard qna = qnaRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("No QnA found with boardNum: " + boardNum));
 
-	    	QnADto qnaDto = new QnADto();
-	    	qnaDto.setBoardNum(qna.getBoardNum());
-	    	qnaDto.setMemberNum(qna.getMemberNum());
-	    	qnaDto.setBoardId(qna.getBoardId());
-	    	qnaDto.setQnaSubject(qna.getQnaSubject());
-	    	qnaDto.setQnaContent(qna.getQnaContent());
-	    	qnaDto.setQnaStatus(qna.getQnaStatus());
-	    	qnaDto.setQnaImg(qna.getQnaImg());
-	    	qnaDto.setQnaDate(qna.getQnaDate());
+        return convertToDto(qna);
+    }
+    
+    private QnADto convertToDto(QnABoard qna) {
+    	QnADto qnaDto = new QnADto();
+    	qnaDto.setBoardNum(qna.getBoardNum());
+    	qnaDto.setMemberNum(qna.getMemberNum());
+    	qnaDto.setBoardId(qna.getBoardId());
+    	qnaDto.setQnaSubject(qna.getQnaSubject());
+    	qnaDto.setQnaContent(qna.getQnaContent());
+    	qnaDto.setQnaStatus(qna.getQnaStatus());
+    	qnaDto.setQnaImg(qna.getQnaImg());
+    	qnaDto.setQnaDate(qna.getQnaDate());
 
-	        return qnaDto;
-	    }
-	    
-	    public QnADto createQnaPost(QnADto qnaDto){
-	        QnABoard qna = new QnABoard();
-	        Member member = new Member();
+        return qnaDto;
+    }
+    
+    public QnADto createQnaPost(QnADto qnaDto, String memberId){
+        QnABoard qna = new QnABoard();
+        Member member = memberService.getMember(memberId);
 
-	        qna.setMemberNum(member.getMemberNum());
-	        qna.setBoardId("qna");
-	        qna.setQnaSubject(qnaDto.getQnaSubject());
-	        qna.setQnaContent(qnaDto.getQnaContent());
-	        qna.setQnaImg(qnaDto.getQnaImg());
-	        qna.setQnaDate(qnaDto.getQnaDate());
-	        qna.setQnaStatus(qnaDto.getQnaStatus());
-	        qnaRepository.save(qna);
+        qna.setMemberNum(member.getMemberNum());
+        qna.setBoardId("qna");
+        qna.setQnaSubject(qnaDto.getQnaSubject());
+        qna.setQnaContent(qnaDto.getQnaContent());
+        qna.setQnaImg(qnaDto.getQnaImg());
+        qna.setQnaDate(qnaDto.getQnaDate());
+        qna.setQnaStatus(qnaDto.getQnaStatus());
+        qnaRepository.save(qna);
 
-	        return convertToDto(qna);
-	    }
-	    
-	    public void deleteQnaById(Long boardNum){
-	        QnABoard qna = qnaRepository.findById(boardNum)
-	                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
-	        qnaRepository.delete(qna);
-	    }
+        return convertToDto(qna);
+    }
+    
+    
+    public void deleteQnaById(Long boardNum){
+    	QnABoard qna = qnaRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+
+    	qnaRepository.delete(qna);
+    }
 }
