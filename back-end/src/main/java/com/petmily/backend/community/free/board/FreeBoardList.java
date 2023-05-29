@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public interface FreeBoardList {
 
 	Long getBoardNum();
+	String getBoardId();
 	String getFreeSubject();
 	Integer getFreeCount();
 	LocalDate getFreeDate();
