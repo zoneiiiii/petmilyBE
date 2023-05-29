@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Notice {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long BoardNum;
+	private Long boardNum;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "memberNum")
@@ -39,7 +39,8 @@ public class Notice {
 	private LocalDateTime postDate;
 	
 	@Builder
-	public Notice(String category, Member member, String subject, String content, int count, LocalDateTime postDate) {
+	public Notice(Long boardNum, String category, Member member, String subject, String content, int count, LocalDateTime postDate) {
+		this.boardNum = boardNum;
 		this.member = member;
 		this.category = category;
 		this.subject = subject;
