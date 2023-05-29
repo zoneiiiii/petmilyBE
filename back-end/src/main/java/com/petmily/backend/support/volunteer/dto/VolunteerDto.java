@@ -1,10 +1,10 @@
 package com.petmily.backend.support.volunteer.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
