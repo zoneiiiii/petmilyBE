@@ -7,11 +7,11 @@ import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
 import com.petmily.backend.support.volunteerReview.repository.VolunteerReviewRepository;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +31,20 @@ public class CommentService {
         //TODO: 게시판 생성될 때마다 Repository 생성자 주입 필요
     }
 
-    public List<CommentDto> getCommentsByPost(String boardId, Long boardNum, String loggedInUserId) {
-        List<Comment> comments = commentRepository.findByBoardIdAndBoardNumOrderByCommentNumAsc(boardId, boardNum);
+public List<CommentDto> getCommentsByPost(String boardId, Long boardNum, String loggedInUserId) {
+    List<Comment> comments = commentRepository.findByBoardIdAndBoardNumOrderByCommentNumAsc(boardId, boardNum);
 
-        return comments.stream()
-                .map(comment -> convertToDto(comment, loggedInUserId))
-                .collect(Collectors.toList());
-    }
+    return comments.stream().map(comment -> convertToDto(comment, loggedInUserId)).collect(Collectors.toList());
+}
 
-    public CommentDto createComment(CommentDto commentDto, String loggedInUserId, Integer commentPnum){
+//    public Page<CommentDto> getCommentsByPost(String boardId, Long boardNum, String loggedInUserId, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Comment> comments = commentRepository.findByBoardIdAndBoardNumOrderByCommentNumAsc(boardId, boardNum, pageable);
+//
+//        return comments.map(comment -> convertToDto(comment, loggedInUserId));
+//    }
+
+    public CommentDto createComment(CommentDto commentDto, String loggedInUserId, Long commentPnum){
         Member member = memberService.getMember(loggedInUserId);
         Comment comment = Comment.builder()
                 .member(member)
@@ -99,20 +104,23 @@ public class CommentService {
 
         //<-- 비밀댓글 처리 Dto 설정
         if (commentDto.getCommentIsSecret()) {
-            Long postCreatorId = null; //게시글 작성자 정보
+            Long postCreatorId = null; //게시글 작성자 Num
+            String postCreator = null;
             //TODO: 게시판 생성될때마다 해당 게시판 boardID case 추가 필요
             switch (commentDto.getBoardId()){
                 case "volunteer":
                     postCreatorId = volunteerRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
                     break;
                 case "volunteerReview":
                     postCreatorId = volunteerReviewRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
                     break;
             }
 
             if(loggedInUserId == null
-                    || (!loggedInUserId.equals(postCreatorId.toString())
-                    && !loggedInUserId.equals(comment.getMember().getMemberId().toString()))) {
+                    || (!loggedInUserId.equals(postCreator)
+                    && !loggedInUserId.equals(comment.getMember().getMemberId()))) {
                 commentDto.setCommentContent("비밀 댓글입니다.");
             }
         }

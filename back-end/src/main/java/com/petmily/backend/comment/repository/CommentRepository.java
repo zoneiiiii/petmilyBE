@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
+
     List<Comment> findByBoardIdAndBoardNumOrderByCommentNumAsc(String boardId, Long boardNum);
+//    Page<Comment> findByBoardIdAndBoardNumOrderByCommentNumAsc(String boardId, Long boardNum, Pageable pageable);
 }
