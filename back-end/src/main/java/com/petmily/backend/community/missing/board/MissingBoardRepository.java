@@ -38,4 +38,13 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
     		nativeQuery=true,
     		value="UPDATE MissingBoard mb SET mb.boardCount = mb.boardCount + 1 WHERE mb.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
+    
+    //마이페이지 쓴 글 목록(실종동물게시판)
+    @Query(
+    		nativeQuery=true,
+    		value="SELECT b.boardNum, b.boardId, b.boardSubject, b.boardCount, b.boardDate, b.boardStatus,b.imgThumbnail, m.memberNickname " +
+            "FROM missingboard b " +
+            "JOIN member m ON b.memberNum = m.memberNum " +
+            "WHERE m.memberNum = :memberNum")
+    List<MissingBoardList> findMissingBoardByMemberNum(@Param("memberNum") Long memberNum);
 }
