@@ -4,6 +4,7 @@ import com.petmily.backend.support.volunteer.service.VolunteerService;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,15 @@ public class VolunteerController {
         this.httpSession = httpSession;
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<VolunteerDto>> getAllVolunteers() {
+//        List<VolunteerDto> volunteers = volunteerService.getAllVolunteers();
+//        return ResponseEntity.ok(volunteers);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<VolunteerDto>> getAllVolunteers() {
-        List<VolunteerDto> volunteers = volunteerService.getAllVolunteers();
+    public ResponseEntity<Page<VolunteerDto>> getAllVolunteers(@RequestParam int page){
+        Page<VolunteerDto> volunteers = volunteerService.getAllVolunteers(page);
         return ResponseEntity.ok(volunteers);
     }
 
@@ -51,7 +58,7 @@ public class VolunteerController {
     @DeleteMapping("/{boardNum}") //게시글 삭제
     public ResponseEntity<Void> deleteVolunteerById(@PathVariable Long boardNum){
         String loggedInUserId = (String) httpSession.getAttribute("id");
-        volunteerService.deleteVoulunteerById(boardNum, loggedInUserId);
+        volunteerService.deleteVolunteerById(boardNum, loggedInUserId);
         log.info("사용자 {} boardNum {} 삭제 완료 ", loggedInUserId, boardNum);
         return ResponseEntity.ok().build();
     }
