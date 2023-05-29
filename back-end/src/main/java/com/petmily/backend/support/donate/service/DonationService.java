@@ -1,5 +1,12 @@
 package com.petmily.backend.support.donate.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.donate.domain.Donation;
