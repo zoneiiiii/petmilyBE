@@ -67,4 +67,13 @@ public class ReviewController {
 	public void updateReview(@PathVariable Long boardNum, @RequestBody ReviewBoard review) {
 		reviewService.updateReview(boardNum, review);
 	}
+	
+	@GetMapping("/search")
+	public String search(String keyword, Model model) {
+		List<ReviewBoardList> searchList = reviewService.search(keyword);
+	 
+		model.addAttribute("searchList", searchList);
+	 
+		return "search";
+	}
 }

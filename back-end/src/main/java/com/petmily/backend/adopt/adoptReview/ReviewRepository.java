@@ -25,6 +25,7 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
 					+ "JOIN member m ON r.memberNum = m.memberNum ORDER BY r.reviewDate DESC")
 	List<ReviewBoardList> getReviewBoards();
 	
+	
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE ReviewBoard r SET r.reviewSubject = :reviewSubject, r.reviewContent = :reviewContent, r.imgThumbnail = :imgThumbnail WHERE r.boardNum = :boardNum")
 	void updateReview(Long boardNum, String reviewSubject, String reviewContent, String imgThumbnail);
@@ -32,6 +33,8 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
     @Modifying
     @Query("UPDATE ReviewBoard m SET m.reviewCount = m.reviewCount + 1 WHERE m.boardNum = :boardNum")
     int updateBoardCount(@Param("boardNum") Long boardNum);
+    
+    List<ReviewBoardList> findByTitleContaining(String keyword);
 
 
 

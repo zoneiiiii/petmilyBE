@@ -3,8 +3,12 @@ package com.petmily.backend.adopt.adoptReview;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import com.petmily.backend.community.free.board.FreeBoard;
+import com.petmily.backend.community.free.board.FreeBoardDto;
+import com.petmily.backend.community.missing.board.MissingBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.member.login.service.MemberService;
@@ -74,6 +78,13 @@ public class ReviewService {
         findReview.setReviewSubject(review.getReviewSubject());
         findReview.setReviewContent(review.getReviewContent());
         findReview.setImgThumbnail(review.getImgThumbnail());
+    }
+    
+    @Transactional
+    public List<ReviewBoardList> search(String keyword) {
+ 
+    	List<ReviewBoardList> reviewBoardList = repository.findByTitleContaining(keyword);
+    	return reviewBoardList;
     }
     
 	private ReviewDto convertToDto(ReviewBoard reviewboard){
