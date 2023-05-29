@@ -1,4 +1,4 @@
-package com.petmily.backend.adopt.domain;
+package com.petmily.backend.adopt.adoptReview;
 
 
 

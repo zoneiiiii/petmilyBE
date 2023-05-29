@@ -1,4 +1,4 @@
-package com.petmily.backend.adopt.dto;
+package com.petmily.backend.adopt.adoptReview;
 
 import java.time.LocalDate;
 

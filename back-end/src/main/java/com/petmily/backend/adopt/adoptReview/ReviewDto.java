@@ -1,13 +1,8 @@
-package com.petmily.backend.adopt.dto;
+package com.petmily.backend.adopt.adoptReview;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import com.petmily.backend.adopt.domain.ReviewBoard;
-import com.petmily.backend.member.login.domain.Member;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

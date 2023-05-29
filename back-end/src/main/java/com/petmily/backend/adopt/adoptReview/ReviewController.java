@@ -1,4 +1,4 @@
-package com.petmily.backend.adopt.controller;
+package com.petmily.backend.adopt.adoptReview;
 
 import java.util.List;
 
@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.petmily.backend.adopt.domain.ReviewBoard;
-import com.petmily.backend.adopt.dto.ReviewBoardList;
-import com.petmily.backend.adopt.dto.ReviewDto;
-import com.petmily.backend.adopt.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -56,7 +51,7 @@ public class ReviewController {
 	 
 	@GetMapping("/list")
 	public List<ReviewBoardList> boardList(Model model, HttpSession session){
-		 String memberId = (String)session.getAttribute("id");
+//		String memberId = (String)session.getAttribute("id");
 		List<ReviewBoardList> reviewList = reviewService.reviewList();
 	    model.addAttribute("list",reviewList);
 	    return reviewList;

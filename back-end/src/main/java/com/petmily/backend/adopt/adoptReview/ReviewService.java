@@ -1,18 +1,10 @@
-package com.petmily.backend.adopt.service;
+package com.petmily.backend.adopt.adoptReview;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
-import com.petmily.backend.adopt.domain.ReviewBoard;
-import com.petmily.backend.adopt.dto.ReviewBoardList;
-import com.petmily.backend.adopt.dto.ReviewDto;
-import com.petmily.backend.adopt.repository.ReviewRepository;
-import com.petmily.backend.community.free.board.FreeBoard;
-import com.petmily.backend.community.free.board.FreeBoardDto;
-import com.petmily.backend.community.missing.board.MissingBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.member.login.service.MemberService;
