@@ -10,7 +10,8 @@ public interface MissingBoardDetail {
 	String getBoardContent();
 	Integer getBoardCount();
 	LocalDateTime getBoardDate();
-	boolean getBoardStatus();
+	Boolean getBoardStatus();
+	String getBoardName();
 	String getBoardLocation();
 	String getBoardSpecies();
 	String getBoardGender();

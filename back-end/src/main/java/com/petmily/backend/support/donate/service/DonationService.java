@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.donate.domain.Donation;
 import com.petmily.backend.support.donate.domain.Payment;
 import com.petmily.backend.support.donate.dto.DonationDto;
@@ -15,21 +17,31 @@ import com.petmily.backend.support.donate.repository.DonationRepository;
 import com.petmily.backend.support.donate.repository.PaymentRepository;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DonationService {
 
-    @Autowired
-    private IamportClient iamportClient;
+    private final IamportClient iamportClient;
+    private final DonationRepository donationRepository;
+    private final PaymentRepository paymentRepository;
+    private final MemberService memberService;
 
-    @Autowired
-    private DonationRepository donationRepository;
-
-    @Autowired
-    private PaymentRepository paymentRepository;
+    public DonationService(IamportClient iamportClient, DonationRepository donationRepository, PaymentRepository paymentRepository, MemberService memberService){
+        this.iamportClient = iamportClient;
+        this.donationRepository = donationRepository;
+        this.paymentRepository = paymentRepository;
+        this.memberService = memberService;
+    }
 
     public List<DonationDto> getAllDonations(){
-        List<Donation> donations = donationRepository.findAll();
+        List<Donation> donations = donationRepository.findAll(Sort.by(Sort.Direction.DESC, "donationDate"));
         List<DonationDto> donationDtos = new ArrayList<>();
 
         for (Donation donation : donations){
@@ -41,6 +53,7 @@ public class DonationService {
             donationDto.setDonationEmail(donation.getDonationEmail());
             donationDto.setDonationCost(donation.getDonationCost());
             donationDto.setDonationDate(donation.getDonationDate());
+            donationDto.setMemberNum(donation.getMemberNum());
             donationDto.setPaymentNum(donation.getPayment().getPaymentNum());
 
             donationDtos.add(donationDto);
@@ -50,7 +63,7 @@ public class DonationService {
 
 
     @Transactional //기부 저장
-    public DonationDto saveDonation(DonationDto donationDto, PaymentDto paymentDto){
+    public DonationDto saveDonation(DonationDto donationDto, PaymentDto paymentDto, String loggedInUserId){
         Payment payment = new Payment(
                 paymentDto.getOrderNum(),
                 paymentDto.getMerchantUid(),
@@ -59,6 +72,12 @@ public class DonationService {
                 paymentDto.getAmount(),
                 paymentDto.getPaymentDate()
         );
+
+        Long loggedInUserNum = null;
+        if(loggedInUserId != null){
+            Member member = memberService.getMember(loggedInUserId);
+            loggedInUserNum = member.getMemberNum();
+        }
 
         // 아임포트 결제 검증
         IamportResponse<com.siot.IamportRestClient.response.Payment> paymentResponse;
@@ -85,12 +104,14 @@ public class DonationService {
                 donationDto.getDonationEmail(),
                 donationDto.getDonationCost(),
                 donationDto.getDonationDate(),
+                loggedInUserNum,
                 savedPayment
         );
 
         Donation savedDonation = donationRepository.save(donation);
         donationDto.setDonationNum(savedDonation.getDonationNum());
         donationDto.setPaymentNum(savedPayment.getPaymentNum());
+        donationDto.setMemberNum(loggedInUserNum);
         return donationDto;
 
     }

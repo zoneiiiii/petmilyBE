@@ -17,4 +17,7 @@ public class VolunteerReviewDto {
     private Integer reviewCount;
     private LocalDateTime reviewDate;
     private String imgThumbnail;
+
+    private String memberImg;
+    private String memberNickname;
 }

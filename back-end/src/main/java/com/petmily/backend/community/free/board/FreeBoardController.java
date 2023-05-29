@@ -1,27 +1,34 @@
 package com.petmily.backend.community.free.board;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/board/free")
 public class FreeBoardController {
 
 	private final FreeBoardService freeBoardService;
+	private final HttpSession httpSession;
 	
 	@Autowired
-	public FreeBoardController(FreeBoardService freeBoardService) {
+	public FreeBoardController(FreeBoardService freeBoardService, HttpSession httpSession) {
 		this.freeBoardService = freeBoardService;
+		this.httpSession = httpSession;
 	}
 	
 	// 전체글 조회 기능
@@ -46,38 +53,22 @@ public class FreeBoardController {
         FreeBoardDto createdFreeBoard = freeBoardService.createFreeBoard(freeBoardDto, memberId);
         return ResponseEntity.ok(createdFreeBoard);
     }
-//	public FreeBoard write(@RequestBody FreeBoard req) {
-//		FreeBoard freeBoard = FreeBoard.builder()
-//				.memberNum(req.getMemberNum())
-//				.boardId(req.getBoardId())
-//				.freeSubject(req.getFreeSubject())
-//				.freeContent(req.getFreeContent())
-//				.freeCount(req.getFreeCount())
-//				.freeDate(req.getFreeDate())
-//				.imgThumbnail(req.getImgThumbnail())
-//				.build();
-//		
-//		return freeBoardService.insert(freeBoard);
-//	}
 	
-//	@GetMapping
-//	public ResponseEntity<List<FreeBoardDto>> getAllFreeBoards(){
-//		List<FreeBoardDto> freeBoards = freeBoardService.getAllFreeBoards();
-//		
-//		return ResponseEntity.ok(freeBoards);
-//	}
-//	
-//	@GetMapping("/{boardNum}")
-//	public ResponseEntity<FreeBoardDto> getFreeBoardById(@PathVariable Long boardNum) {
-//		FreeBoardDto freeBoard = freeBoardService.getFreeBoardById(boardNum);
-//		
-//		return ResponseEntity.ok(freeBoard);
-//	}
-//	
-//	@PostMapping("/{boardNum}/increase-viewcount")
-//	public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNum) {
-//		freeBoardService.increaseViewCount(boardNum);
-//		
-//		return ResponseEntity.ok().build();
-//	}
+	// 게시글 삭제
+	@DeleteMapping("/{boardNum}")
+	public ResponseEntity<Void> deleteFreeBoardById(@PathVariable Long boardNum){
+        String loggedInUserId = (String) httpSession.getAttribute("id");
+        freeBoardService.deleteFreeBoardById(boardNum, loggedInUserId);
+        log.info("사용자 {} boardNum {} 삭제 완료 ", loggedInUserId, boardNum);
+        return ResponseEntity.ok().build();
+    }
+	
+	//게시글 수정
+	@PutMapping("/{boardNum}") 
+    public ResponseEntity<FreeBoardDto> updateFreeBoard(@PathVariable Long boardNum, @RequestBody FreeBoardDto freeBoardDto){
+        String loggedInUserId = (String) httpSession.getAttribute("id");
+        FreeBoardDto updatedFreeBoard = freeBoardService.updateFreeBoard(boardNum, freeBoardDto, loggedInUserId);
+        log.info("사용자 {} boardNum {} 수정 완료 ", loggedInUserId, boardNum);
+        return  ResponseEntity.ok(updatedFreeBoard);
+    }
 }

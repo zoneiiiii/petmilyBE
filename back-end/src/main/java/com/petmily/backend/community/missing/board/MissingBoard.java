@@ -41,19 +41,22 @@ public class MissingBoard {
     private LocalDateTime boardDate;
     
     @Column
-    private boolean boardStatus;
-    
-    @Column
-    private String boardLocation;
+    private String boardName;
     
     @Column
     private String boardSpecies;
+    
+    @Column
+    private String boardLocation;
     
     @Column
     private int boardAge;
     
     @Column
     private String boardGender;
+    
+    @Column
+    private Boolean boardStatus;
 
     @Column
     private String imgThumbnail;

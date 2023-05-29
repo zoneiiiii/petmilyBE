@@ -15,7 +15,7 @@ public class CommentDto {
     private String commentContent;
     private LocalDateTime commentCreate;
     private LocalDateTime commentUpdate;
-    private Integer commentPnum;
+    private Long commentPnum;
     private Boolean commentIsSecret;
 
     private String memberImg;

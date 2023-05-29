@@ -18,6 +18,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	long countByMemberIdAndMemberPw(@Param("memberId") String memberId, @Param("memberPw") String memberPw);
 
 	Member findByMemberId(String memberId);
+	Member findByMemberNum(Long memberNum);
 
 	@Query("select count(m) from Member m where m.memberId=:memberId and m.memberEmail=:memberEmail")
 	long countByMemberIdAndMemberEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
