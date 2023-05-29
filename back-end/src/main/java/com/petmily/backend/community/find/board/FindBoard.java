@@ -1,4 +1,4 @@
-package com.petmily.backend.community.missing.board;
+package com.petmily.backend.community.find.board;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +16,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="missingboard")
-public class MissingBoard {
+@Table(name="findboard")
+public class FindBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardNum;
@@ -41,22 +41,16 @@ public class MissingBoard {
     private LocalDateTime boardDate;
     
     @Column
-    private String boardName;
+    private String boardLocation;
     
     @Column
     private String boardSpecies;
-    
-    @Column
-    private String boardLocation;
     
     @Column
     private int boardAge;
     
     @Column
     private String boardGender;
-    
-    @Column
-    private Boolean boardStatus;
 
     @Column
     private String imgThumbnail;

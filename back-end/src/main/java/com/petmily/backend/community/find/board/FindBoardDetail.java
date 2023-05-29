@@ -1,8 +1,8 @@
-package com.petmily.backend.community.missing.board;
+package com.petmily.backend.community.find.board;
 
 import java.time.LocalDateTime;
 
-public interface MissingBoardDetail {
+public interface FindBoardDetail {
 	Long getBoardNum();
 	Long getMemberNum();
 	String getBoardId();
@@ -10,8 +10,6 @@ public interface MissingBoardDetail {
 	String getBoardContent();
 	Integer getBoardCount();
 	LocalDateTime getBoardDate();
-	Boolean getBoardStatus();
-	String getBoardName();
 	String getBoardLocation();
 	String getBoardSpecies();
 	String getBoardGender();

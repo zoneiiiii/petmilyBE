@@ -1,4 +1,4 @@
-package com.petmily.backend.community.missing.board;
+package com.petmily.backend.community.flea.board;
 
 import java.util.List;
 
@@ -17,56 +17,55 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/board/missing")
-public class MissingBoardController {
+@RequestMapping("/board/flea")
+public class FleaBoardController {
 
-	private final MissingBoardService missingBoardService;
+	private final FleaBoardService fleaBoardService;
 	private final HttpSession httpSession;
 	
-	public MissingBoardController(MissingBoardService missingBoardService, HttpSession httpSession) {
-		this.missingBoardService = missingBoardService;
+	public FleaBoardController(FleaBoardService fleaBoardService, HttpSession httpSession) {
+		this.fleaBoardService = fleaBoardService;
 		this.httpSession = httpSession;
 	}
 	
 	// 전체글 조회
 	@GetMapping
-    public List<MissingBoardList> getBoards() {
-		System.out.println("aaa");
-		List<MissingBoardList> res=missingBoardService.getMissingBoardList();
+    public List<FleaBoardList> getBoards() {
+		List<FleaBoardList> res=fleaBoardService.getFleaBoardList();
 		System.out.println(res.size());
-        return missingBoardService.getMissingBoardList();
+        return fleaBoardService.getFleaBoardList();
     }
-
+	
 	// 상세글 조회
     @GetMapping("/{boardNum}")
-    public MissingBoardDetail getBoard(@PathVariable Long boardNum) {
-        return missingBoardService.getMissingBoard(boardNum);
+    public FleaBoardDetail getBoard(@PathVariable Long boardNum) {
+        return fleaBoardService.getFleaBoard(boardNum);
     }
-
+    
     // 게시글 작성
     @PostMapping("/write")
-    public ResponseEntity<MissingBoardDto> createBoard(@RequestBody MissingBoardDto missingBoardDto, HttpSession session) {
+    public ResponseEntity<FleaBoardDto> createBoard(@RequestBody FleaBoardDto fleaBoardDto, HttpSession session) {
     	System.out.println(session.getAttribute("id"));
     	String memberId = (String)session.getAttribute("id");
-    	MissingBoardDto createdMissingBoard = missingBoardService.createMissingBoard(missingBoardDto, memberId);
-    	return ResponseEntity.ok(createdMissingBoard);
+    	FleaBoardDto createdFleaBoard = fleaBoardService.createFleaBoard(fleaBoardDto, memberId);
+    	return ResponseEntity.ok(createdFleaBoard);
     }
     
     // 게시글 삭제
     @DeleteMapping("/{boardNum}")
-	public ResponseEntity<Void> deleteMissingBoardById(@PathVariable Long boardNum){
+	public ResponseEntity<Void> deleteFleaBoardById(@PathVariable Long boardNum){
         String loggedInUserId = (String) httpSession.getAttribute("id");
-        missingBoardService.deleteMissingBoardById(boardNum, loggedInUserId);
+        fleaBoardService.deleteFleaBoardById(boardNum, loggedInUserId);
         log.info("사용자 {} boardNum {} 삭제 완료 ", loggedInUserId, boardNum);
         return ResponseEntity.ok().build();
     }
     
     //게시글 수정
   	@PutMapping("/{boardNum}") 
-    public ResponseEntity<MissingBoardDto> updateMissingBoard(@PathVariable Long boardNum, @RequestBody MissingBoardDto missingBoardDto){
+    public ResponseEntity<FleaBoardDto> updateFleaBoard(@PathVariable Long boardNum, @RequestBody FleaBoardDto fleaBoardDto){
   		String loggedInUserId = (String) httpSession.getAttribute("id");
-  		MissingBoardDto updatedMissingBoard = missingBoardService.updateMissingBoard(boardNum, missingBoardDto, loggedInUserId);
+  		FleaBoardDto updatedFleaBoard = fleaBoardService.updateFleaBoard(boardNum, fleaBoardDto, loggedInUserId);
   		log.info("사용자 {} boardNum {} 수정 완료 ", loggedInUserId, boardNum);
-  		return  ResponseEntity.ok(updatedMissingBoard);
-      }
+  		return  ResponseEntity.ok(updatedFleaBoard);
+  	}
 }

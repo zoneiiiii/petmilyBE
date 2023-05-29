@@ -1,4 +1,4 @@
-package com.petmily.backend.community.missing.board;
+package com.petmily.backend.community.find.board;
 
 import java.time.LocalDateTime;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MissingBoardDto {
+public class FindBoardDto {
 	private Long boardNum;
 	private Long memberNum;
 	private String boardId;
@@ -18,9 +18,6 @@ public class MissingBoardDto {
 	private String boardLocation;
 	private String boardSpecies;
 	private String boardGender;
-	private Boolean boardStatus;
 	private String imgThumbnail;
-	private String boardName;
 	private Integer boardAge;
-//	private String memberNickName;
 }

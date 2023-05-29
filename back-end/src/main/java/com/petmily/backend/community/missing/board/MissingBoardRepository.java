@@ -37,5 +37,5 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
     @Query(
     		nativeQuery=true,
     		value="UPDATE MissingBoard mb SET mb.boardCount = mb.boardCount + 1 WHERE mb.boardNum = :boardNum")
-    void updateBoardCount(Long boardNum);	
+    void updateBoardCount(Long boardNum);
 }

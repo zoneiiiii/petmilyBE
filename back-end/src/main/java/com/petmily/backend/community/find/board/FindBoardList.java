@@ -1,14 +1,13 @@
-package com.petmily.backend.community.missing.board;
+package com.petmily.backend.community.find.board;
 
 import java.time.LocalDateTime;
 
-public interface MissingBoardList {
+public interface FindBoardList {
 	Long getBoardNum();
 	String getBoardId();
 	String getBoardSubject();
 	Integer getBoardCount();
 	LocalDateTime BoardDate();
-	Boolean getBoardStatus();
 	String getImgThumbnail();
 	String getMemberNickName();
 }
