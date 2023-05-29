@@ -18,7 +18,9 @@ public class MissingBoardDto {
 	private String boardLocation;
 	private String boardSpecies;
 	private String boardGender;
-	private boolean boardStatus;
+	private Boolean boardStatus;
 	private String imgThumbnail;
-	private String memberNickName;
+	private String boardName;
+	private Integer boardAge;
+//	private String memberNickName;
 }
