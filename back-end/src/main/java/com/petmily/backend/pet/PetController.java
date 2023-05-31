@@ -2,11 +2,15 @@ package com.petmily.backend.pet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,5 +33,18 @@ public class PetController {
         PetDto insertPet = petService.insertPet(petDto, memberId);
         return ResponseEntity.ok(insertPet);
     }
+	
+	@GetMapping("/{petName}")
+    public Pet getBoard(@PathVariable String petName) {
+        return petService.getPetDetail(petName);
+    }
+	
+	@DeleteMapping("/{petName}")
+	public void deleteAllByPetName(@PathVariable String petName){
+		petService.deleteAllByPetName(petName);
+	}
+	
+	
+	
 
 }

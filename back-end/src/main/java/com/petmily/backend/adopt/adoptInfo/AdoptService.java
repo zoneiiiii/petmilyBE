@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.member.login.service.MemberService;
@@ -46,8 +47,28 @@ public class AdoptService {
         return convertToDto(adopt);
     }
  
-
+	@Transactional
+    public List<Adopt> adoptList(){
+    	
+        return repository.findAllByOrderByAdoptDateDesc();
+    }
 	
+	@Transactional
+	public AdoptCountDto getAdoptCounts() {
+		AdoptCountDto counts = new AdoptCountDto();
+		counts.setTotalCount(repository.count());
+		counts.setWaitingCount(repository.countByAdoptState("wait"));
+		counts.setSuccessCount(repository.countByAdoptState("success"));
+		counts.setFailCount(repository.countByAdoptState("fail"));
+		return counts;
+	}
+	
+	@Transactional
+	public void updateAdopt(Long adoptNum, Adopt adopt) {
+		Adopt findAdopt = repository.findByAdoptNum(adoptNum);
+		findAdopt.setAdoptState(adopt.getAdoptState());
+		
+	}
     
 	private AdoptDto convertToDto(Adopt adopt){
 		 

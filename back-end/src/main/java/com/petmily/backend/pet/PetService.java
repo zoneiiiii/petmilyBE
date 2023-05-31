@@ -3,9 +3,12 @@ package com.petmily.backend.pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.member.login.service.MemberService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PetService {
@@ -34,11 +37,23 @@ public class PetService {
         pet.setShelterTel(petDto.getShelterTel());
         pet.setShelterAddr(petDto.getShelterAddr());
         pet.setShelterDate(petDto.getShelterDate());
+        pet.setSexCd(petDto.getSexCd());
+        pet.setNeuterYn(petDto.getNeuterYn());
 
         repository.save(pet);
 
         return convertToDto(pet);
     }
+	
+	@Transactional 
+    public Pet getPetDetail(String petName) {
+    	Pet getPetDetail = repository.findByPetName(petName);
+        return getPetDetail;
+    }
+	 @Transactional
+	 public void deleteAllByPetName(String petName){
+		 repository.deleteAllByPetName(petName);
+	 }
 	private PetDto convertToDto(Pet pet){
 		 
 		PetDto petDto = new PetDto();
@@ -51,6 +66,8 @@ public class PetService {
 		petDto.setShelterTel(pet.getShelterTel());
 		petDto.setShelterAddr(pet.getShelterAddr());
 		petDto.setShelterDate(pet.getShelterDate());
+		petDto.setSexCd(pet.getSexCd());
+		petDto.setNeuterYn(pet.getNeuterYn());
  
         return petDto;
      }
