@@ -49,5 +49,10 @@ public class Pet {
 
     @Column
     private LocalDateTime shelterDate;
+    @Column
+    private String sexCd;
+    
+    @Column
+    private String neuterYn;
 
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,6 +30,7 @@ public class QnABoard {
 	@Column(nullable = false)
 	private String qnaSubject;
 	
+	@Lob
 	@Column(columnDefinition = "LONGTEXT", nullable = false)
 	private String qnaContent;
 
@@ -41,6 +43,10 @@ public class QnABoard {
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date qnaDate;
+	
+//	@Lob
+//	@Column(columnDefinition = "LONGTEXT", nullable = false)
+//	private String adminAnswer;
 
 
 }

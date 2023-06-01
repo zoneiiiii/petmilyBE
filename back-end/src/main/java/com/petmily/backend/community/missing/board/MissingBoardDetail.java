@@ -18,4 +18,5 @@ public interface MissingBoardDetail {
 	Integer getBoardAge();
 	String getImgThumbnail();
 	String getMemberNickName();
+	String getMemberImg();
 }
