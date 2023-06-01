@@ -58,7 +58,7 @@ public class EventController {
 	public Boolean insertEvent(@RequestBody@Valid EventForm eventForm, BindingResult bindingResult) {
 		String id = (String)httpSession.getAttribute("id");
 		if(id != null && !bindingResult.hasErrors()) {
-			return this.eventService.insertEvent(eventForm, id);
+			return this.eventService.saveEvent(eventForm, id);
 		}
 		else return false;
 	}
@@ -70,11 +70,11 @@ public class EventController {
 	}
 	
 	@PostMapping("/update")
-	public void updateEvent(@RequestBody@Valid EventForm eventForm, BindingResult bindingResult) {
-		System.out.println("no: " + eventForm.getNo());
+	public int updateEvent(@RequestBody@Valid EventForm eventForm, BindingResult bindingResult) {
 		String id = (String)httpSession.getAttribute("id");
 		if(id != null && !bindingResult.hasErrors()) {
-			System.out.println(this.eventService.updateEvent(eventForm, id));
+			return this.eventService.updateEvent(eventForm, id);
 		}
+		else return 0;
 	}
 }

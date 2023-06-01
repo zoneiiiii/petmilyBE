@@ -1,6 +1,11 @@
 package com.petmily.backend.about.dto;
 
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +20,7 @@ public class EventForm {
 	@NotEmpty(message="내용은 필수항목입니다.")
 	private String content;
 	private String thumbnail;
-	@NotEmpty(message="시작일은 필수입니다.")
-	private String startDate;
-	private String endDate;
+	@NotNull(message="시작일은 필수입니다.")
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 }

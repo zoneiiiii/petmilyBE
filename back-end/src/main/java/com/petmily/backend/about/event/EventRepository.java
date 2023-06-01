@@ -1,6 +1,5 @@
 package com.petmily.backend.about.event;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
