@@ -1,8 +1,11 @@
 package com.petmily.backend.pet;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.petmily.backend.adopt.adoptInfo.Adopt;
 import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
@@ -53,6 +56,11 @@ public class PetService {
 	 @Transactional
 	 public void deleteAllByPetName(String petName){
 		 repository.deleteAllByPetName(petName);
+	 }
+	 
+	 @Transactional
+	 public List<Pet> petList(){
+		 return repository.findAll();
 	 }
 	private PetDto convertToDto(Pet pet){
 		 
