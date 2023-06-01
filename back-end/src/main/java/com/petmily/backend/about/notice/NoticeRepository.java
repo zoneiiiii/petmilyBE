@@ -28,12 +28,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 	Page<Notice> findAll(Pageable pageable);
 	Optional<Notice> findByBoardNum(Long BoardNum );
 	
-	@Transactional
 	@Modifying
 	@Query(value="update Notice n set n.subject = :#{#noticeForm.subject}, n.content = :#{#noticeForm.content} where n.boardNum = :#{#noticeForm.no}", nativeQuery = true) 
 	int updateNotice(@Param("noticeForm")NoticeForm noticeForm);
 	
-	@Transactional
 	@Modifying
 	@Query(value="update Notice n set n.count = n.count + 1 where n.boardNum = :boardNum", nativeQuery = true) 
 	int updateViews(@Param("boardNum") Long boardNum);
