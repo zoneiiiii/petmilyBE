@@ -2,6 +2,8 @@ package com.petmily.backend.community.free.board;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,12 +36,12 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     		value="UPDATE freeboard f SET f.freeCount = f.freeCount + 1 WHERE f.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
     
-	//마이페이지 쓴 글 목록(자유게시판)
+    //마이페이지 쓴 글 목록(자유게시판)
     @Query(
     		nativeQuery=true,
     		value="SELECT f.boardNum, f.boardId, f.freeSubject, f.freeCount, f.freeDate, m.memberNickname " +
     	            "FROM freeboard f " +
     	            "JOIN member m ON f.memberNum = m.memberNum " +
     	            "WHERE m.memberNum = :memberNum")
-	List<FreeBoardList> findFreeBoardByMemberNum(@Param("memberNum") Long memberNum);
+	Page<FreeBoardList> findFreeBoardByMemberNum(@Param("memberNum") Long memberNum,Pageable pageable);
 }
