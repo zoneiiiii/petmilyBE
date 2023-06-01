@@ -2,6 +2,8 @@ package com.petmily.backend.adopt.adoptReview;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,7 +38,14 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
     
 //    List<ReviewBoardList> findByTitleContaining(String keyword);
 
-
+  //마이페이지 쓴 글 목록(입양후기)
+    @Query(
+    		nativeQuery=true,
+    		value="SELECT r.boardNum, r.reviewSubject, r.reviewCount, r.imgThumbnail, r.reviewDate, m.memberNickName "
+					+ "FROM reviewboard r " +
+            "JOIN member m ON r.memberNum = m.memberNum " +
+            "WHERE m.memberNum = :memberNum")
+    Page<ReviewBoardList> findAdoptReviewByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
 
 
 }

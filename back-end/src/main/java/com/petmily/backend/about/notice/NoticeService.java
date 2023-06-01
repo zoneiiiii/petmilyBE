@@ -18,6 +18,7 @@ import com.petmily.backend.about.dto.NoticeView;
 import com.petmily.backend.global.DataNotFoundException;
 import com.petmily.backend.member.login.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -54,6 +55,7 @@ public class NoticeService {
 		return noticeList;
 	}
 
+	@Transactional
 	public NoticeView viewNotice(Long no) {
 		System.out.println("service");
 		Optional<NoticeView> noticeView = this.noticeRepository.getNoticeView(no);
@@ -83,6 +85,7 @@ public class NoticeService {
 		return notice.get().getMember().getMemberId().equals(id);
 	}
 	
+	@Transactional
 	public int updateNotice(NoticeForm noticeForm, String id) {
 		return this.noticeRepository.updateNotice(noticeForm);
 		

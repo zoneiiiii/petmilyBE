@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,12 @@ import com.petmily.backend.support.donate.repository.PaymentRepository;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DonationService {
@@ -40,27 +41,52 @@ public class DonationService {
         this.memberService = memberService;
     }
 
-    public List<DonationDto> getAllDonations(){
-        List<Donation> donations = donationRepository.findAll(Sort.by(Sort.Direction.DESC, "donationDate"));
+    private List<DonationDto> getDonations(Sort sort){
+        List<Donation> donations = donationRepository.findAll(sort);
         List<DonationDto> donationDtos = new ArrayList<>();
 
         for (Donation donation : donations){
-            DonationDto donationDto = new DonationDto();
-            donationDto.setDonationNum(donation.getDonationNum());
-            donationDto.setDonationDonor(donation.getDonationDonor());
-            donationDto.setDonationName(donation.getDonationName());
-            donationDto.setDonationTel(donation.getDonationTel());
-            donationDto.setDonationEmail(donation.getDonationEmail());
-            donationDto.setDonationCost(donation.getDonationCost());
-            donationDto.setDonationDate(donation.getDonationDate());
-            donationDto.setMemberNum(donation.getMemberNum());
-            donationDto.setPaymentNum(donation.getPayment().getPaymentNum());
-
-            donationDtos.add(donationDto);
+            donationDtos.add(convertToDto(donation));
         }
         return donationDtos;
     }
 
+    public List<DonationDto> getAllDonations(){
+        return getDonations(Sort.by(Sort.Direction.DESC, "donationDate"));
+    }
+
+    public List<DonationDto> getAllDonationsASC(){
+        return getDonations(Sort.by(Sort.Direction.ASC, "donationDate"));
+    }
+
+    public Page<DonationDto> getAllMemberDonation(Pageable pageable){
+        Page<Donation> donations = donationRepository.findByMemberNumIsNotNull(
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("donationDate").descending())
+        );
+
+        List<DonationDto> donationDtos = donations.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(donationDtos, pageable, donations.getTotalElements());
+    }
+
+    public Page<DonationDto> getAllNonMemberDonation(Pageable pageable){
+        Page<Donation> donations = donationRepository.findByMemberNumIsNull(
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("donationDate").descending())
+        );
+
+        List<DonationDto> donationDtos = donations.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(donationDtos, pageable, donations.getTotalElements());
+    }
+
+    public Long getTotalDonation() {
+        Long total = donationRepository.sumDonationCost();
+        return total == null ? 0L : total;
+    }
 
     @Transactional //기부 저장
     public DonationDto saveDonation(DonationDto donationDto, PaymentDto paymentDto, String loggedInUserId){
@@ -114,6 +140,22 @@ public class DonationService {
         donationDto.setMemberNum(loggedInUserNum);
         return donationDto;
 
+    }
+
+    private DonationDto convertToDto(Donation donation) {
+        DonationDto donationDto = new DonationDto();
+        donationDto.setDonationNum(donation.getDonationNum());
+        donationDto.setDonationDonor(donation.getDonationDonor());
+        donationDto.setDonationName(donation.getDonationName());
+        donationDto.setDonationTel(donation.getDonationTel());
+        donationDto.setDonationEmail(donation.getDonationEmail());
+        donationDto.setDonationCost(donation.getDonationCost());
+        donationDto.setDonationDate(donation.getDonationDate());
+        donationDto.setMemberNum(donation.getMemberNum());
+        if (donation.getPayment() != null) {
+            donationDto.setPaymentNum(donation.getPayment().getPaymentNum());
+        }
+        return donationDto;
     }
 
 }

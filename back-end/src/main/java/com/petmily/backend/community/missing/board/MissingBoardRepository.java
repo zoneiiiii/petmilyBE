@@ -2,6 +2,8 @@ package com.petmily.backend.community.missing.board;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -46,5 +48,5 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
             "FROM missingboard b " +
             "JOIN member m ON b.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum")
-    List<MissingBoardList> findMissingBoardByMemberNum(@Param("memberNum") Long memberNum);
+    Page<MissingBoardList> findMissingBoardByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
 }
