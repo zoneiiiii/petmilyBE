@@ -16,7 +16,7 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
 	// 게시글 전체 조회
 	@Query(
 			nativeQuery=true,
-			value="SELECT fb.boardNum, fb.boardId, fb.boardSubject, fb.boardCost, fb.boardCount, fb.imgThumbnail, m.memberNickname "
+			value="SELECT fb.boardNum, fb.boardId, fb.boardSubject, fb.boardCost, fb.boardCount, fb.imgThumbnail, fb.boardStatus, m.memberNickname "
 					+ "FROM fleaboard fb "
 					+ "JOIN member m ON fb.memberNum = m.memberNum")
 	List<FleaBoardList> getFleaBoards();

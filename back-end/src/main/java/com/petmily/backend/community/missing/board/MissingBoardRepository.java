@@ -24,7 +24,7 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
 	// 게시글 조회
 	@Query(
 			nativeQuery=true,
-			value="SELECT mb.*, m.memberNickName "
+			value="SELECT mb.*, m.memberNickName, m.memberImg "
 			+ "FROM missingboard mb "
 			+ "JOIN member m ON mb.memberNum = m.memberNum WHERE mb.boardNum = :boardNum")
 	MissingBoardDetail findMissingBoardDetail(@Param("boardNum") Long boardNum);

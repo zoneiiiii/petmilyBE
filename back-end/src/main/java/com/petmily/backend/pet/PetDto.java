@@ -2,6 +2,7 @@ package com.petmily.backend.pet;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,7 @@ public class PetDto {
 	private String shelterTel;	
 	private String shelterAddr;
 	private LocalDateTime shelterDate;
+	private String sexCd;
+	private String neuterYn;
 
 }

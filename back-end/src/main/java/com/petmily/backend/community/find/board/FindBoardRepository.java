@@ -24,7 +24,7 @@ public interface FindBoardRepository extends JpaRepository<FindBoard, Long> {
 	// 게시글 조회
 	@Query(
 			nativeQuery=true,
-			value="SELECT fb.*, m.memberNickName "
+			value="SELECT fb.*, m.memberNickName, m.memberImg "
 			+ "FROM findboard fb "
 			+ "JOIN member m ON fb.memberNum = m.memberNum WHERE fb.boardNum = :boardNum")
 	FindBoardDetail findFindBoardDetail(@Param("boardNum") Long boardNum);

@@ -8,10 +8,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.petmily.backend.adopt.adoptReview.ReviewBoard;
+import com.petmily.backend.adopt.adoptReview.ReviewBoardList;
+
 
 @Repository
 public interface AdoptRepository extends JpaRepository<Adopt, Long> {
+	List<Adopt> findAllByOrderByAdoptDateDesc();
 	
+	Long countByAdoptState(String adoptState);
+	
+	Adopt findByAdoptNum(Long adoptNum);
+
+	
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Adopt a SET a.adoptState = :adoptState WHERE a.adoptNum = :adoptNum")
+	void updateAdopt(Long adoptNum, String adoptState);
 
 
 

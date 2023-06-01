@@ -12,4 +12,5 @@ public interface FreeBoardDetail {
 	LocalDateTime getFreeDate();
 	String getImgThumbnail();
 	String getMemberNickName();
+	String getMemberImg();
 }
