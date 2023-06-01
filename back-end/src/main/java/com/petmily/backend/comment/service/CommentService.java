@@ -1,8 +1,13 @@
 package com.petmily.backend.comment.service;
 
+import com.petmily.backend.adopt.adoptReview.ReviewRepository;
 import com.petmily.backend.comment.domain.Comment;
 import com.petmily.backend.comment.dto.CommentDto;
 import com.petmily.backend.comment.repository.CommentRepository;
+import com.petmily.backend.community.find.board.FindBoardRepository;
+import com.petmily.backend.community.flea.board.FleaBoardRepository;
+import com.petmily.backend.community.free.board.FreeBoardRepository;
+import com.petmily.backend.community.missing.board.MissingBoardRepository;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
 import com.petmily.backend.support.volunteer.repository.VolunteerRepository;
@@ -21,14 +26,27 @@ public class CommentService {
     private final MemberService memberService;
     private final VolunteerRepository volunteerRepository;
     private final VolunteerReviewRepository volunteerReviewRepository;
+    private final MissingBoardRepository missingBoardRepository;
+    private final FreeBoardRepository freeBoardRepository;
+    private final FindBoardRepository findBoardRepository;
+    private final FleaBoardRepository fleaBoardRepository;
+    private final ReviewRepository reviewRepository;
+
 
     public CommentService(CommentRepository commentRepository, MemberService memberService,
-    VolunteerRepository volunteerRepository, VolunteerReviewRepository volunteerReviewRepository){
+    VolunteerRepository volunteerRepository, VolunteerReviewRepository volunteerReviewRepository,
+    MissingBoardRepository missingBoardRepository, FleaBoardRepository fleaBoardRepository,
+    FreeBoardRepository freeBoardRepository, ReviewRepository reviewRepository, FindBoardRepository findBoardRepository){
         this.commentRepository = commentRepository;
         this.memberService = memberService;
         this.volunteerRepository = volunteerRepository;
         this.volunteerReviewRepository = volunteerReviewRepository;
-        //TODO: 게시판 생성될 때마다 Repository 생성자 주입 필요
+        this.missingBoardRepository = missingBoardRepository;
+        this.findBoardRepository = findBoardRepository;
+        this.fleaBoardRepository = fleaBoardRepository;
+        this.freeBoardRepository = freeBoardRepository;
+        this.reviewRepository = reviewRepository;
+
     }
 
 public List<CommentDto> getCommentsByPost(String boardId, Long boardNum, String loggedInUserId) {
@@ -106,7 +124,9 @@ public List<CommentDto> getCommentsByPost(String boardId, Long boardNum, String 
         if (commentDto.getCommentIsSecret()) {
             Long postCreatorId = null; //게시글 작성자 Num
             String postCreator = null;
-            //TODO: 게시판 생성될때마다 해당 게시판 boardID case 추가 필요
+            Long originalCommenterId = null; //원 댓글 작성자 Num
+            String originalCommenter = null;
+
             switch (commentDto.getBoardId()){
                 case "volunteer":
                     postCreatorId = volunteerRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
@@ -116,11 +136,37 @@ public List<CommentDto> getCommentsByPost(String boardId, Long boardNum, String 
                     postCreatorId = volunteerReviewRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
                     postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
                     break;
+                case "missing":
+                    postCreatorId = missingBoardRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
+                    break;
+                case "find":
+                    postCreatorId = findBoardRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
+                    break;
+                case "free":
+                    postCreatorId = freeBoardRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
+                    break;
+                case "flea":
+                    postCreatorId = fleaBoardRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
+                    break;
+                case "review":
+                    postCreatorId = reviewRepository.findById(commentDto.getBoardNum()).orElseThrow().getMemberNum();
+                    postCreator = memberService.getMemberByNum(postCreatorId).getMemberId();
+                    break;
+            }
+
+            if(comment.getCommentPnum() != null) {
+                originalCommenterId = commentRepository.findById(comment.getCommentPnum()).orElseThrow().getMember().getMemberNum();
+                originalCommenter = memberService.getMemberByNum(originalCommenterId).getMemberId();
             }
 
             if(loggedInUserId == null
                     || (!loggedInUserId.equals(postCreator)
-                    && !loggedInUserId.equals(comment.getMember().getMemberId()))) {
+                    && !loggedInUserId.equals(comment.getMember().getMemberId())
+                    && (originalCommenter == null || !loggedInUserId.equals(originalCommenter)))) {
                 commentDto.setCommentContent("비밀 댓글입니다.");
             }
         }

@@ -9,6 +9,8 @@ import com.petmily.backend.support.donate.dto.PaymentDto;
 import com.petmily.backend.support.donate.repository.DonationRepository;
 import com.petmily.backend.support.donate.service.DonationService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,30 @@ public class DonationController {
     public ResponseEntity<List<DonationDto>> getAllDonations(){
         List<DonationDto> donations = donationService.getAllDonations();
         return new ResponseEntity<>(donations, HttpStatus.OK);
+    }
+
+    @GetMapping("/Asc")
+    public ResponseEntity<List<DonationDto>> getAllDonationsASC(){
+        List<DonationDto> donations = donationService.getAllDonationsASC();
+        return new ResponseEntity<>(donations, HttpStatus.OK);
+    }
+
+    @GetMapping("/member")
+    public ResponseEntity<Page<DonationDto>> getAllMemberDonations(Pageable pageable) {
+        Page<DonationDto> donations = donationService.getAllMemberDonation(pageable);
+        return new ResponseEntity<>(donations, HttpStatus.OK);
+    }
+
+    @GetMapping("/non-member")
+    public ResponseEntity<Page<DonationDto>> getAllNonMemberDonations(Pageable pageable) {
+        Page<DonationDto> donations = donationService.getAllNonMemberDonation(pageable);
+        return new ResponseEntity<>(donations, HttpStatus.OK);
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<Long> getTotalDonation() {
+        Long total = donationService.getTotalDonation();
+        return new ResponseEntity<>(total, HttpStatus.OK);
     }
 
     @PostMapping("/apply")
