@@ -16,4 +16,5 @@ public interface FindBoardDetail {
 	Integer getBoardAge();
 	String getImgThumbnail();
 	String getMemberNickName();
+	String getMemberImg();
 }

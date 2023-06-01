@@ -9,6 +9,7 @@ public interface FleaBoardDetail {
     Integer getBoardCount();
     LocalDateTime getBoardDate();
     String getBoardSubject();
+    String getBoardContent();
     String getBoardCost();
     String getBoardCategory();
     Boolean getBoardStatus();
