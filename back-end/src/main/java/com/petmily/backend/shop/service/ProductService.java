@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.petmily.backend.shop.dto.ProductAddCart;
 import com.petmily.backend.shop.dto.ProductDetail;
 import com.petmily.backend.shop.dto.ProductDto;
 import com.petmily.backend.shop.dto.ProductList;
@@ -26,5 +27,9 @@ public class ProductService {
 	public ProductDetail getProduct(Long boardNum) {
 		ProductDetail product = productRepository.findProductDetial(boardNum);
 		return product;
+	}
+	
+	public void addCart(ProductAddCart addCart) {
+		productRepository.addCart(addCart.getProductName(), addCart.getProductCost(), addCart.getImgThumbnail(), addCart.getQuantity());
 	}
 }
