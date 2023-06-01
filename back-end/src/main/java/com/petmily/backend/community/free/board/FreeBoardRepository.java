@@ -34,7 +34,7 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     		value="UPDATE freeboard f SET f.freeCount = f.freeCount + 1 WHERE f.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
     
-    //마이페이지 쓴 글 목록(자유게시판)
+	//마이페이지 쓴 글 목록(자유게시판)
     @Query(
     		nativeQuery=true,
     		value="SELECT f.boardNum, f.boardId, f.freeSubject, f.freeCount, f.freeDate, m.memberNickname " +

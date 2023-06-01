@@ -1,9 +1,9 @@
 package com.petmily.backend.support.volunteerReview.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,4 +17,7 @@ public class VolunteerReviewDto {
     private Integer reviewCount;
     private LocalDateTime reviewDate;
     private String imgThumbnail;
+
+    private String memberImg;
+    private String memberNickname;
 }

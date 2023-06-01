@@ -20,17 +20,31 @@ public class CommentController {
         this.httpSession = httpSession;
     }
 
+
     @GetMapping("/{boardId}/{boardNum}")
     public ResponseEntity<List<CommentDto>> getCommentsByPost(@PathVariable String boardId, @PathVariable Long boardNum) {
-        String loggedInUserId = (String)httpSession.getAttribute("id");
+        String loggedInUserId = (String) httpSession.getAttribute("id");
         List<CommentDto> comments = commentService.getCommentsByPost(boardId, boardNum, loggedInUserId);
         return ResponseEntity.ok(comments);
-    }
+}
+
+//    @GetMapping("/{boardId}/{boardNum}")
+//    public ResponseEntity<Map<String, Object>> getCommentsByPost(@PathVariable String boardId, @PathVariable Long boardNum,
+//                                                                 @RequestParam(defaultValue ="0") int page,
+//                                                                 @RequestParam(defaultValue = "10") int size) {
+//        String loggedInUserId = (String) httpSession.getAttribute("id");
+//        Page<CommentDto> comments = commentService.getCommentsByPost(boardId, boardNum, loggedInUserId, page, size);
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("comments", comments.getContent());
+//        response.put("totalPages", comments.getTotalPages());
+//        response.put("totalItems", comments.getTotalElements());
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping("/write") //댓글 작성
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto){
         String loggedInUserId = (String)httpSession.getAttribute("id");
-        Integer commentPnum = commentDto.getCommentPnum();
+        Long commentPnum = commentDto.getCommentPnum();
         CommentDto createdComment = commentService.createComment(commentDto, loggedInUserId, commentPnum);
         return ResponseEntity.ok(createdComment);
     }
