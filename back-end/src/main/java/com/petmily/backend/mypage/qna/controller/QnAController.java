@@ -29,9 +29,14 @@ public class QnAController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QnADto>> getQnAList() {
+    public ResponseEntity<List<QnADto>> getQnAList() {//모든 게시글 리스트
         List<QnADto> qnaDto = qnaService.getQnAList();
         return ResponseEntity.ok(qnaDto);
+    }
+    
+    @GetMapping("/list/{memberNum}")
+    public List<QnADto> getQnAByMemberNum(@PathVariable Long memberNum) {
+    	return qnaService.getQnAByMemberNum(memberNum);
     }
 	
 	
