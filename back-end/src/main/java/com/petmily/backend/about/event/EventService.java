@@ -64,7 +64,7 @@ public class EventService {
 		else throw new DataNotFoundException("eventView not found");
 	}
 
-	public Boolean insertEvent(EventForm eventForm, String id) {
+	public Boolean saveEvent(EventForm eventForm, String id) {
 		System.out.println(id);
 		System.out.println(eventForm.getStartDate());
 		
@@ -75,8 +75,8 @@ public class EventService {
 				.content(eventForm.getContent())
 				.thumbnail(eventForm.getThumbnail())
 				.postDate(LocalDateTime.now())
-				.startDate(LocalDateTime.parse(eventForm.getStartDate(), DateTimeFormatter.ISO_DATE_TIME))
-				.endDate(LocalDateTime.parse(eventForm.getEndDate(), DateTimeFormatter.ISO_DATE_TIME))
+				.startDate(eventForm.getStartDate())
+				.endDate(eventForm.getEndDate())
 				.count(0)
 				.build();
 		return this.eventRepository.save(event).getMember().getMemberId().equals(id);
