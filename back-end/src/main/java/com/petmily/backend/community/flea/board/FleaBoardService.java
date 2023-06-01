@@ -77,12 +77,12 @@ public class FleaBoardService {
         if(!member.getMemberNum().equals(fleaBoard.getMemberNum())){
             throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다.");
     	}
-        System.out.println(fleaBoardDto);
+//        System.out.println(fleaBoardDto);
         fleaBoard.setBoardSubject(fleaBoardDto.getBoardSubject());
   	    fleaBoard.setBoardContent(fleaBoardDto.getBoardContent());
   	    fleaBoard.setImgThumbnail(fleaBoardDto.getImgThumbnail());
-	  	fleaBoardDto.setBoardCost(fleaBoard.getBoardCost());
-		fleaBoardDto.setBoardCategory(fleaBoard.getBoardCategory());
+  	    fleaBoard.setBoardCost(fleaBoardDto.getBoardCost());
+  	    fleaBoard.setBoardCategory(fleaBoardDto.getBoardCategory());
 	  	fleaBoard.setBoardStatus(fleaBoardDto.getBoardStatus());
 	  	fleaBoardRepository.save(fleaBoard);
 

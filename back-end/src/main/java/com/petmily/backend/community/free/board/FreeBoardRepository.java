@@ -22,7 +22,7 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 	// 게시글 조회(Read)
 	@Query(
 			nativeQuery=true,
-			value="SELECT f.*, m.memberNickName "
+			value="SELECT f.*, m.memberNickName, m.memberImg "
 			+ "FROM freeboard f "
 			+ "JOIN member m ON f.memberNum = m.memberNum WHERE f.boardNum = :boardNum")
 	FreeBoardDetail findFreeBoardDetail(@Param("boardNum") Long boardNum);
