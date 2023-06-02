@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class ProductAddCart {
 	
+	private int boardNum;
+	private String memberId;
 	private String productName;
-	private String productCost;
+	private int productCost;
 	private String imgThumbnail;
 	private int quantity;
 

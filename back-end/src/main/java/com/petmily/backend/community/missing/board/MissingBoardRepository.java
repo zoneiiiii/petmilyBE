@@ -18,7 +18,8 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
 			nativeQuery=true,
 			value="SELECT mb.boardNum, mb.boardId, mb.boardSubject, mb.boardCount, mb.boardDate, mb.boardStatus, mb.imgThumbnail, m.memberNickname "
 					+ "FROM missingboard mb "
-					+ "JOIN member m ON mb.memberNum = m.memberNum")
+					+ "JOIN member m ON mb.memberNum = m.memberNum "
+					+ "ORDER BY mb.boardDate DESC")
 	List<MissingBoardList> getMissingBoards();
 	
 	// 게시글 조회

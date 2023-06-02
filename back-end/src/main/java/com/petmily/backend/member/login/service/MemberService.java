@@ -92,6 +92,17 @@ public class MemberService {
 
         return member;
     }
+    
+    // 관리자 권한 확인
+    public String getMemberRoll(Long memberNum) {
+    	Member member = repository.findByMemberNum(memberNum);
+    	String memberRoll = repository.roleChk(memberNum);
+    	if(member == null){
+            throw new NoSuchElementException("해당 멤버번호 에 맞는 정보를 찾을 수 없습니다. : " + memberNum);
+        }
+    	
+    	return memberRoll;
+    }
 
 
     public boolean updateMember(Long memberNum, MemberUpdateRequest request) {

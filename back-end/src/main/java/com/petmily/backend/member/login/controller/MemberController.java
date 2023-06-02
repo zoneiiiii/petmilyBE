@@ -72,6 +72,12 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+    
+    @GetMapping("/get-userroll/{memberNum}") // memberRoll 값 가져옴
+    public String getUserRoll(@PathVariable Long memberNum) {
+    	
+    	return memberService.getMemberRoll(memberNum);
+    }
 
     @GetMapping("/members")
     public Page<Member> getMembers(Pageable pageable){
