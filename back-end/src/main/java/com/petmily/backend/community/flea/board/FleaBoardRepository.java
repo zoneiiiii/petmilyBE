@@ -34,7 +34,11 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
 	@Modifying
     @Query(
     		nativeQuery=true,
+<<<<<<< HEAD
     		value="UPDATE fleaBoard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
+=======
+    		value="UPDATE fleaboard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
+>>>>>>> 45cabfd6f4a416bc01219b4000c1bc273ae70cbb
     void updateBoardCount(Long boardNum);
 	
 	//마이페이지 쓴 글 목록(매매장터)
