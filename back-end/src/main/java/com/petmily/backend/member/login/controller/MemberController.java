@@ -1,15 +1,13 @@
 package com.petmily.backend.member.login.controller;
 
+import com.petmily.backend.member.login.dto.MemberRoleUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.dto.MemberDto;
@@ -81,6 +79,36 @@ public class MemberController {
     	return memberService.getMemberRoll(memberNum);
     }
 
+    @GetMapping("/members")
+    public Page<Member> getMembers(Pageable pageable){
+        return memberService.getMembers(pageable);
+    }
+
+    @GetMapping("/members/count")
+    public ResponseEntity<Long> getTotalMembers(){
+        return ResponseEntity.ok(memberService.getTotalMembers());
+    }
+
+    @DeleteMapping("/members/{memberNum}")
+    public  ResponseEntity<String> deleteMember(@PathVariable Long memberNum){
+        try {
+            memberService.deleteMember(memberNum);
+            return new ResponseEntity<>("멤버 삭제 성공",HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("멤버 삭제 실패",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/updateRole/{memberNum}")
+    private ResponseEntity<String> updateMemberRole(@PathVariable Long memberNum, @RequestBody MemberRoleUpdateDto dto){
+        try{
+            dto.setMemberNum(memberNum);
+            memberService.updateMemberRole(dto);
+            return new ResponseEntity<>("멤버 Role 수정 성공", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("멤버 Role 수정 실패",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping("/selectMember")
     public Member selectMember(@RequestBody MemberDto dto){

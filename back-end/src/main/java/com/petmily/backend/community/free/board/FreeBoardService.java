@@ -33,6 +33,10 @@ public class FreeBoardService {
 		freeBoardRepository.updateBoardCount(bardNum);
 		return freeBoard;
 	}
+
+	public long getFreeCount(){
+		return freeBoardRepository.count();
+	}
 	
 	// 게시글 작성
 	@Transactional

@@ -34,7 +34,11 @@ public class ReviewController {
     public ReviewBoard getBoard(@PathVariable Long boardNum) {
         return reviewService.getReviewBoard(boardNum);
     }
-	
+
+	@GetMapping("/count")
+	public ResponseEntity<Long> getAdoptReviewCount(){
+		return ResponseEntity.ok(reviewService.getAdoptReviewCount());
+	}
 //	@PostMapping("/insert")
 //	public void writeReview(@RequestBody ReviewBoard review, HttpSession session) {
 //		System.out.println(session.getAttribute("id"));

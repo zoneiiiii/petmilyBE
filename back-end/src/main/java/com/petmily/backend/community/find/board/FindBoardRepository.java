@@ -45,4 +45,6 @@ public interface FindBoardRepository extends JpaRepository<FindBoard, Long> {
             "JOIN member m ON fb.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum")
     Page<FindBoardList> findFindBoardByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
+
+	long count();
 }

@@ -34,7 +34,7 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
 	@Modifying
     @Query(
     		nativeQuery=true,
-    		value="UPDATE fleaBoard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
+    		value="UPDATE fleaboard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
 	
 	//마이페이지 쓴 글 목록(매매장터)
@@ -45,4 +45,6 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
             "JOIN member m ON fb.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum ORDER BY fb.boardDate DESC")
     List<FleaBoardList> findFleaBoardByMemberNum(@Param("memberNum") Long memberNum);
+
+	long count();
 }

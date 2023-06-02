@@ -24,4 +24,5 @@ public interface VolunteerReviewRepository extends JpaRepository<VolunteerReview
             "WHERE m.memberNum = :memberNum")
     Page<VolunteerReview> findReviewByMemberNum(@Param("memberNum") Long memberNum,Pageable pageable);
 
+	long count();
 }

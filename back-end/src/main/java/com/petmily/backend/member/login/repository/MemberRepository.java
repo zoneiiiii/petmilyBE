@@ -2,6 +2,9 @@ package com.petmily.backend.member.login.repository;
 
 import java.util.Date;
 
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +23,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Member findByMemberId(String memberId);
 	Member findByMemberNum(Long memberNum);
+
+	@NotNull
+	Page<Member> findAll(@NotNull Pageable pageable); //멤버 pagination
+
+	@Transactional
+	void deleteByMemberNum(Long memberNum); //멤버 삭제
+
+	long count(); //총 멤버수
+
+	@Modifying
+	@Transactional
+	@Query("update Member m set m.memberRole = :memberRole where m.memberNum = :memberNum")
+	void updateMemberRole(@Param("memberNum") Long memberNum, @Param("memberRole") String memberRole); // 멤버 권한 변경
 
 	@Query("select count(m) from Member m where m.memberId=:memberId and m.memberEmail=:memberEmail")
 	long countByMemberIdAndMemberEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
@@ -62,7 +78,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// 전화번호 중복체크
 	@Query("select count(m) from Member m where m.memberTel = :memberTel and memberNum != :memberNum")
 	long telChk(@Param("memberTel") String memberTel, Long memberNum);
-	
+
 	// 관리자 체크
 	@Query( nativeQuery=true,
 			value="SELECT m.memberRole FROM member m WHERE m.memberNum = :memberNum")

@@ -43,6 +43,11 @@ public class MissingBoardController {
         return missingBoardService.getMissingBoard(boardNum);
     }
 
+	@GetMapping("/count")
+	public ResponseEntity<Long> getMissingCount(){
+		return ResponseEntity.ok(missingBoardService.getMissingCount());
+	}
+
     // 게시글 작성
     @PostMapping("/write")
     public ResponseEntity<MissingBoardDto> createBoard(@RequestBody MissingBoardDto missingBoardDto, HttpSession session) {
