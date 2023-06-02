@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.petmily.backend.community.find.board.FindBoardDetail;
 import com.petmily.backend.member.login.domain.Member;
 
 @Repository
@@ -61,4 +62,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// 전화번호 중복체크
 	@Query("select count(m) from Member m where m.memberTel = :memberTel and memberNum != :memberNum")
 	long telChk(@Param("memberTel") String memberTel, Long memberNum);
+	
+	// 관리자 체크
+	@Query( nativeQuery=true,
+			value="SELECT m.memberRole FROM member m WHERE m.memberNum = :memberNum")
+	String roleChk(@Param("memberNum") long memberNum);
 }

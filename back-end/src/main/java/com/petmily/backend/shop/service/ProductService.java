@@ -17,19 +17,28 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Transactional
 	public List<ProductList> getProductList() {
 		return productRepository.getProducts();
 	}
-	
+
 	@Transactional
 	public ProductDetail getProduct(Long boardNum) {
-		ProductDetail product = productRepository.findProductDetial(boardNum);
+		ProductDetail product = productRepository.findProductDetail(boardNum);
 		return product;
 	}
-	
+
 	public void addCart(ProductAddCart addCart) {
-		productRepository.addCart(addCart.getProductName(), addCart.getProductCost(), addCart.getImgThumbnail(), addCart.getQuantity());
+		long productCheck = productRepository.productCheck(addCart.getMemberId(), addCart.getBoardNum());
+
+		if (productCheck > 0) {
+			System.out.println("if");
+			productRepository.updateQuantity(addCart.getQuantity(), addCart.getMemberId(), addCart.getBoardNum());
+		} else {
+			System.out.println("else");
+			productRepository.addCart(addCart.getBoardNum(), addCart.getMemberId(), addCart.getProductName(),
+					addCart.getProductCost(), addCart.getImgThumbnail(), addCart.getQuantity());
+		}
 	}
 }

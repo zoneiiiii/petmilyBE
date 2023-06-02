@@ -29,10 +29,7 @@ public class Product {
 	private String productName;
 	
 	@Column
-	private String productCost;
-	
-	@Column
-	private int productLike;
+	private int productCost;
 	
 	@Column
 	private String productContent;
@@ -41,7 +38,7 @@ public class Product {
 	private String productImg;
 	
 	@Column
-	private String productAmount;
+	private int productAmount;
 	
 	@Column
 	private String imgThumbnail;

@@ -7,7 +7,7 @@ public interface FindBoardList {
 	String getBoardId();
 	String getBoardSubject();
 	Integer getBoardCount();
-	LocalDateTime BoardDate();
+	LocalDateTime getBoardDate();
 	String getImgThumbnail();
 	String getMemberNickName();
 }
