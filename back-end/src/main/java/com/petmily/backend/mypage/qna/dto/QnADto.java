@@ -15,4 +15,5 @@ public class QnADto {
 	private Boolean qnaStatus;
 	private String qnaImg;
 	private Date qnaDate;
+	private String adminAnswer;
 }
