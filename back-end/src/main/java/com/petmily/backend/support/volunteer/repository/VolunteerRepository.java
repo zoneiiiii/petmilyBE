@@ -13,4 +13,6 @@ import com.petmily.backend.support.volunteer.domain.Volunteer;
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     @NotNull
     Page<Volunteer> findAll(@NotNull Pageable pageable);
+
+    long count();
 }

@@ -33,6 +33,10 @@ public class FleaBoardService {
     	fleaBoardRepository.updateBoardCount(boardNum);
         return fleaBoard;
     }
+
+	public long getFleaCount(){
+		return fleaBoardRepository.count();
+	}
     
     // 게시글 작성
     @Transactional

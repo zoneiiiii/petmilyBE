@@ -41,7 +41,11 @@ public class FindBoardController {
     public FindBoardDetail getBoard(@PathVariable Long boardNum) {
         return findBoardService.getFindBoard(boardNum);
     }
-    
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getFindCount(){
+        return ResponseEntity.ok(findBoardService.getFindCount());
+    }
     // 게시글 작성
     @PostMapping("/write")
     public ResponseEntity<FindBoardDto> createBoard(@RequestBody FindBoardDto findBoardDto, HttpSession session) {

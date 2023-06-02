@@ -79,6 +79,10 @@ public class ReviewService {
         findReview.setReviewContent(review.getReviewContent());
         findReview.setImgThumbnail(review.getImgThumbnail());
     }
+
+    public long getAdoptReviewCount(){
+        return repository.count();
+    }
     
 //    @Transactional
 //    public List<ReviewBoardList> search(String keyword) {

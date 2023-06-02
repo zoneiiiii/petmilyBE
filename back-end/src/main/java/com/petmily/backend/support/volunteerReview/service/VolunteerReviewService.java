@@ -65,6 +65,10 @@ public class VolunteerReviewService {
         volunteerReviewRepository.save(volunteerReview);
     }
 
+    public long getVolunteerReviewCount() {
+        return volunteerReviewRepository.count();
+    }
+
     @Transactional
     public VolunteerReviewDto createVolunteerReview(VolunteerReviewDto volunteerReviewDto, String memberId){
         Member member = memberService.getMember(memberId);

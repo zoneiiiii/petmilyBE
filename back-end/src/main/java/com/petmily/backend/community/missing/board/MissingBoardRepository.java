@@ -49,4 +49,6 @@ public interface MissingBoardRepository extends JpaRepository<MissingBoard, Long
             "JOIN member m ON b.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum")
     Page<MissingBoardList> findMissingBoardByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
+
+	long count();
 }

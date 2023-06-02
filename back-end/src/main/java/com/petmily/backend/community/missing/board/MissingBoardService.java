@@ -33,6 +33,10 @@ public class MissingBoardService {
         return missingBoard;
     }
 
+	public long getMissingCount(){
+		return missingBoardRepository.count();
+	}
+
     // 게시글 작성
     @Transactional
     public MissingBoardDto createMissingBoard(MissingBoardDto missingBoardDto, String memberId) {

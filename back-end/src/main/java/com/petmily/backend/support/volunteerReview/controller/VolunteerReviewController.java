@@ -50,6 +50,11 @@ public class VolunteerReviewController {
         return ResponseEntity.ok(volunteerReview);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getVolunteerReviewCount() {
+        return ResponseEntity.ok(volunteerReviewService.getVolunteerReviewCount());
+    }
+
     @PostMapping("/{boardNum}/increase-viewcount")
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNum){
         volunteerReviewService.increaseViewCount(boardNum);

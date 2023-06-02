@@ -69,6 +69,10 @@ public class VolunteerService {
         volunteerRepository.save(volunteer);
     }
 
+    public long getVolunteerCount(){
+        return volunteerRepository.count();
+    }
+
     public VolunteerDto createVolunteer(VolunteerDto volunteerDto, String memberId){
         Member member = memberService.getMember(memberId);
         Volunteer volunteer = new Volunteer();

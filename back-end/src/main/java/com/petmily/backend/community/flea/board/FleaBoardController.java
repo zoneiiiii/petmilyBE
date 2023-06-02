@@ -41,7 +41,12 @@ public class FleaBoardController {
     public FleaBoardDetail getBoard(@PathVariable Long boardNum) {
         return fleaBoardService.getFleaBoard(boardNum);
     }
-    
+
+	@GetMapping("/count")
+	public ResponseEntity<Long> getFleaCount(){
+		return ResponseEntity.ok(fleaBoardService.getFleaCount());
+	}
+
     // 게시글 작성
     @PostMapping("/write")
     public ResponseEntity<FleaBoardDto> createBoard(@RequestBody FleaBoardDto fleaBoardDto, HttpSession session) {

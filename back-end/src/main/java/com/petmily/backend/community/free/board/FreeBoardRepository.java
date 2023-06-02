@@ -44,4 +44,6 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     	            "JOIN member m ON f.memberNum = m.memberNum " +
     	            "WHERE m.memberNum = :memberNum")
 	Page<FreeBoardList> findFreeBoardByMemberNum(@Param("memberNum") Long memberNum,Pageable pageable);
+
+	long count();
 }
