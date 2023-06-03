@@ -34,6 +34,10 @@ public class FindBoardService {
     	findBoardRepository.updateBoardCount(boardNum);
         return findBoard;
     }
+
+	public Long getFindCount(){
+		return findBoardRepository.count();
+	}
     
     // 게시글 작성
     @Transactional

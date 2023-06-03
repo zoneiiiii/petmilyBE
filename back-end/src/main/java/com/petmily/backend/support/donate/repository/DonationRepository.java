@@ -15,4 +15,11 @@ public interface DonationRepository extends JpaRepository<Donation,Long> {
 
     @Query("SELECT SUM(donationCost) FROM Donation")
     Long sumDonationCost(); //총 기부금
+
+
+    @Query("SELECT SUM(donationCost) FROM Donation WHERE memberNum IS NOT NULL")
+    Long sumMemberDonationCost(); //회원 총 기부금
+
+    @Query("SELECT SUM(donationCost) FROM Donation WHERE memberNum IS NULL")
+    Long sumNonMemberDonationCost(); //비회원 총 기부금
 }

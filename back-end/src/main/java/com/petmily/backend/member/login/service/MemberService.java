@@ -2,6 +2,9 @@ package com.petmily.backend.member.login.service;
 
 import java.util.Optional;
 
+import com.petmily.backend.member.login.dto.MemberRoleUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,6 @@ import com.petmily.backend.member.login.dto.MemberUpdateRequest;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.support.volunteer.domain.Volunteer;
 import com.petmily.backend.support.volunteer.dto.VolunteerDto;
-
-import jakarta.transaction.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -58,8 +59,23 @@ public class MemberService {
             return 0;
         }
     }
-    
-    
+
+    public Page<Member> getMembers(Pageable pageable){
+        return repository.findAll(pageable);
+    }
+
+    public void deleteMember(Long memberNum){
+        repository.deleteByMemberNum(memberNum);
+    }
+
+    public long getTotalMembers(){
+        return repository.count();
+    }
+
+    public void updateMemberRole(MemberRoleUpdateDto dto){
+        repository.updateMemberRole(dto.getMemberNum(), dto.getMemberRole());
+    }
+
     public Member getMember(String memberId){
         Member member = repository.findByMemberId(memberId);
          if(member == null){
@@ -75,6 +91,17 @@ public class MemberService {
         }
 
         return member;
+    }
+    
+    // 관리자 권한 확인
+    public String getMemberRoll(Long memberNum) {
+    	Member member = repository.findByMemberNum(memberNum);
+    	String memberRoll = repository.roleChk(memberNum);
+    	if(member == null){
+            throw new NoSuchElementException("해당 멤버번호 에 맞는 정보를 찾을 수 없습니다. : " + memberNum);
+        }
+    	
+    	return memberRoll;
     }
 
 

@@ -47,5 +47,6 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
             "WHERE m.memberNum = :memberNum")
     Page<ReviewBoardList> findAdoptReviewByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
 
+	long count();
 
 }

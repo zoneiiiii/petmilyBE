@@ -62,6 +62,18 @@ public class DonationController {
         return new ResponseEntity<>(total, HttpStatus.OK);
     }
 
+    @GetMapping("/total/member")
+    public ResponseEntity<Long> getMemberTotalDonation() {
+        Long total = donationService.getMemberTotalDonation();
+        return new ResponseEntity<>(total, HttpStatus.OK);
+    }
+
+    @GetMapping("/total/non-member")
+    public ResponseEntity<Long> getNonMemberTotalDonation() {
+        Long total = donationService.getNonMemberTotalDonation();
+        return new ResponseEntity<>(total, HttpStatus.OK);
+    }
+
     @PostMapping("/apply")
     public ResponseEntity<DonationDto> saveDonation(@RequestBody DonationRequestDto donationRequestDto, HttpSession httpSession){
         String loggedInUserId = (String) httpSession.getAttribute("id");

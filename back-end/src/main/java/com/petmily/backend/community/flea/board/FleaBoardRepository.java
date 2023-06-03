@@ -16,9 +16,10 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
 	// 게시글 전체 조회
 	@Query(
 			nativeQuery=true,
-			value="SELECT fb.boardNum, fb.boardId, fb.boardSubject, fb.boardCost, fb.boardCount, fb.imgThumbnail, fb.boardStatus, m.memberNickname "
+			value="SELECT fb.boardNum, fb.boardId, fb.boardSubject, fb.boardCost, fb.boardCount, fb.imgThumbnail, fb.boardStatus, fb.boardDate, m.memberNickname "
 					+ "FROM fleaboard fb "
-					+ "JOIN member m ON fb.memberNum = m.memberNum")
+					+ "JOIN member m ON fb.memberNum = m.memberNum "
+					+ "ORDER BY fb.boardDate DESC")
 	List<FleaBoardList> getFleaBoards();
 	
 	// 게시글 조회
@@ -33,7 +34,7 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
 	@Modifying
     @Query(
     		nativeQuery=true,
-    		value="UPDATE FleaBoard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
+    		value="UPDATE fleaboard fb SET fb.boardCount = fb.boardCount + 1 WHERE fb.boardNum = :boardNum")
     void updateBoardCount(Long boardNum);
 	
 	//마이페이지 쓴 글 목록(매매장터)
@@ -44,4 +45,6 @@ public interface FleaBoardRepository extends JpaRepository<FleaBoard, Long> {
             "JOIN member m ON fb.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum ORDER BY fb.boardDate DESC")
     List<FleaBoardList> findFleaBoardByMemberNum(@Param("memberNum") Long memberNum);
+
+	long count();
 }

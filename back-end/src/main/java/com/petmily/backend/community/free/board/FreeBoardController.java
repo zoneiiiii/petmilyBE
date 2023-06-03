@@ -44,7 +44,11 @@ public class FreeBoardController {
 	public FreeBoardDetail getBoard(@PathVariable Long boardNum) {
 		return freeBoardService.getFreeBoard(boardNum);
 	}
-	
+
+	@GetMapping("/count")
+	public ResponseEntity<Long> getFreeCount(){
+		return ResponseEntity.ok(freeBoardService.getFreeCount());
+	}
 	// 게시글 작성
 	@PostMapping("/write")
     public ResponseEntity<FreeBoardDto> createFreeBoard(@RequestBody FreeBoardDto freeBoardDto, HttpSession session){

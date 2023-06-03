@@ -18,7 +18,8 @@ public interface FindBoardRepository extends JpaRepository<FindBoard, Long> {
 			nativeQuery=true,
 			value="SELECT fb.boardNum, fb.boardId, fb.boardSubject, fb.boardCount, fb.boardDate, fb.imgThumbnail, m.memberNickname "
 					+ "FROM findboard fb "
-					+ "JOIN member m ON fb.memberNum = m.memberNum")
+					+ "JOIN member m ON fb.memberNum = m.memberNum "
+					+ "ORDER BY fb.boardDate DESC")
 	List<FindBoardList> getFindBoards();
 	
 	// 게시글 조회
@@ -44,4 +45,6 @@ public interface FindBoardRepository extends JpaRepository<FindBoard, Long> {
             "JOIN member m ON fb.memberNum = m.memberNum " +
             "WHERE m.memberNum = :memberNum")
     Page<FindBoardList> findFindBoardByMemberNum(@Param("memberNum") Long memberNum, Pageable pageable);
+
+	long count();
 }

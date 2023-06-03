@@ -20,14 +20,23 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query(nativeQuery=true, value="select p.boardNum, p.productName, p.productCost, p.imgThumbnail, "
 			+ "p.productImg, p.productContent from product p where p.boardNum = :boardNum")
-	ProductDetail findProductDetial(@Param("boardNum") Long boardNum);
+	ProductDetail findProductDetail(@Param("boardNum") Long boardNum);
 	
 	
 	@Modifying
 	@Transactional
-	@Query(nativeQuery=true, value="insert into cart (productName, productCost, imgThumbnail, quantity)"
-			+ "values (:productName, :productCost, :imgThumbnail, :quantity)")
-	void addCart(@Param("productName") String productName, @Param("productCost") String productCost,
+	@Query(nativeQuery=true, value="insert into cart (boardNum, memberNum, productName, productCost, imgThumbnail, quantity)"
+			+ "values (:boardNum, (select memberNum from member where memberId = :memberId), :productName, :productCost, :imgThumbnail, :quantity)")
+	void addCart(@Param("boardNum") int boardNum, @Param("memberId") String memberId, @Param("productName") String productName, @Param("productCost") int productCost,
 			@Param("imgThumbnail") String imgThumbnail, @Param("quantity") int quantity);
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery=true, value="update cart set quantity = quantity + :quantity where memberNum = (select memberNum from member where memberId = :memberId) and boardNum = :boardNum")
+	void updateQuantity(@Param("quantity") int quantity, @Param("memberId") String memberId, @Param("boardNum") int boardNum);
+	
+	@Query(nativeQuery=true, value="select count(*) from cart c where c.memberNum = (select memberNum from member where memberId = :memberId) and c.boardNum = :boardNum")
+	long productCheck(@Param("memberId") String memberId, @Param("boardNum") int boardNum);
+	
 	
 }

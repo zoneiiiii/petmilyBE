@@ -44,9 +44,9 @@ public class QnABoard {
 	@Column(nullable = false)
 	private Date qnaDate;
 	
-//	@Lob
-//	@Column(columnDefinition = "LONGTEXT", nullable = false)
-//	private String adminAnswer;
+	@Lob
+	@Column(columnDefinition = "LONGTEXT")
+	private String adminAnswer;
 
 
 }

@@ -18,7 +18,8 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
 			nativeQuery=true,
 			value="SELECT f.boardNum, f.freeSubject, f.freeCount, f.freeDate, m.memberNickName "
 					+ "FROM freeboard f "
-					+ "JOIN member m ON f.memberNum = m.memberNum")
+					+ "JOIN member m ON f.memberNum = m.memberNum "
+					+ "ORDER BY f.freeDate DESC")
 	List<FreeBoardList> getFreeBoards();
 	
 	// 게시글 조회(Read)
@@ -44,4 +45,6 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     	            "JOIN member m ON f.memberNum = m.memberNum " +
     	            "WHERE m.memberNum = :memberNum")
 	Page<FreeBoardList> findFreeBoardByMemberNum(@Param("memberNum") Long memberNum,Pageable pageable);
+
+	long count();
 }

@@ -88,6 +88,16 @@ public class DonationService {
         return total == null ? 0L : total;
     }
 
+    public Long getMemberTotalDonation() {
+        Long total = donationRepository.sumMemberDonationCost();
+        return total == null ? 0L : total;
+    }
+
+    public Long getNonMemberTotalDonation() {
+        Long total = donationRepository.sumNonMemberDonationCost();
+        return total == null ? 0L : total;
+    }
+
     @Transactional //기부 저장
     public DonationDto saveDonation(DonationDto donationDto, PaymentDto paymentDto, String loggedInUserId){
         Payment payment = new Payment(

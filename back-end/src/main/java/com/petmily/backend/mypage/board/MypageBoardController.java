@@ -28,13 +28,13 @@ public class MypageBoardController {
 	}
 	//실종 동물 게시판
 	@GetMapping("/missing/{memberNum}")
-    public Page<MissingBoardList> getMissingByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="8") int limit, @PathVariable Long memberNum) {
+    public Page<MissingBoardList> getMissingByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="12") int limit, @PathVariable Long memberNum) {
         return mypageService.getMissingBoardByMemberNum(page, limit,memberNum);
     }
 	
 	//목격 제보 게시판
 	@GetMapping("/find/{memberNum}")
-	public Page<FindBoardList> getFindBoardByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="8") int limit, @PathVariable Long memberNum) {
+	public Page<FindBoardList> getFindBoardByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="12") int limit, @PathVariable Long memberNum) {
         return mypageService.getFindBoardByMemberNum(page, limit,memberNum);
     }
 	
@@ -46,7 +46,7 @@ public class MypageBoardController {
 	
 	//입양후기
 	@GetMapping("/adoptReview/{memberNum}")
-	public Page<ReviewBoardList> getAdoptReviewByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="6") int limit, @PathVariable Long memberNum) {
+	public Page<ReviewBoardList> getAdoptReviewByMemberNum(@RequestParam(value="page", defaultValue="0") int page, @RequestParam(value="limit", defaultValue="12") int limit, @PathVariable Long memberNum) {
         return mypageService.getAdoptReviewByMemberNum(page, limit,memberNum);
     }
 	

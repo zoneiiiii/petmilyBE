@@ -52,6 +52,11 @@ public class VolunteerController {
         return ResponseEntity.ok(volunteer);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getVolunteerCount() {
+        return ResponseEntity.ok(volunteerService.getVolunteerCount());
+    }
+
     @PostMapping("/{boardNum}/increase-viewcount") // 조회수 증가
     public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNum) {
         volunteerService.increaseViewCount(boardNum);
