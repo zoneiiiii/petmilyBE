@@ -74,6 +74,7 @@ public class AdoptService {
 	public void updateAdopt(Long adoptNum, Adopt adopt) {
 		Adopt findAdopt = repository.findByAdoptNum(adoptNum);
 		findAdopt.setAdoptState(adopt.getAdoptState());
+		findAdopt.setApprovedDate(adopt.getApprovedDate());
 		
 	}
     

@@ -24,7 +24,7 @@ public interface AdoptRepository extends JpaRepository<Adopt, Long> {
 	
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE Adopt a SET a.adoptState = :adoptState, a.approvedDate = :approvedDate WHERE a.adoptNum = :adoptNum")
-	void updateAdopt(Long adoptNum, LocalDateTime approvedDate,String adoptState);
+	void updateAdopt(Long adoptNum,@Param("approvedDate") LocalDateTime approvedDate,String adoptState);
 
 
 
