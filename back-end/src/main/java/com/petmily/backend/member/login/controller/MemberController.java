@@ -75,7 +75,6 @@ public class MemberController {
         }
     }
 
-
     @PostMapping("/selectMember")
     public Member selectMember(@RequestBody MemberDto dto){
         return memberService.selectMember(dto);
