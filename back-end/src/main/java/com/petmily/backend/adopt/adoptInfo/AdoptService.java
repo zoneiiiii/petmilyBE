@@ -41,6 +41,13 @@ public class AdoptService {
         adopt.setAdopterEmail(adoptDto.getAdopterEmail());
         adopt.setAdopterName(adoptDto.getAdopterName());
         adopt.setAdoptState(adoptDto.getAdoptState());
+        adopt.setPetAge(adoptDto.getPetAge());
+        adopt.setPetSpecies(adoptDto.getPetSpecies());
+        adopt.setShelterName(adoptDto.getShelterName());
+        adopt.setShelterTel(adoptDto.getShelterTel());
+        adopt.setShelterAddr(adoptDto.getShelterAddr());
+        adopt.setSexCd(adoptDto.getSexCd());
+        adopt.setNeuterYn(adoptDto.getNeuterYn());
 
         repository.save(adopt);
 
@@ -83,6 +90,13 @@ public class AdoptService {
 		adoptDto.setAdopterEmail(adopt.getAdopterEmail());
 		adoptDto.setAdopterName(adopt.getAdopterName());
 		adoptDto.setAdoptState(adopt.getAdoptState());
+		adoptDto.setPetAge(adopt.getPetAge());
+		adoptDto.setPetSpecies(adopt.getPetSpecies());
+		adoptDto.setShelterName(adopt.getShelterName());
+		adoptDto.setShelterTel(adopt.getShelterTel());
+		adoptDto.setShelterAddr(adopt.getShelterAddr());
+		adoptDto.setSexCd(adopt.getSexCd());
+		adoptDto.setNeuterYn(adopt.getNeuterYn());
  
          return adoptDto;
      }

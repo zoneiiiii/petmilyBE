@@ -1,5 +1,6 @@
 package com.petmily.backend.adopt.adoptInfo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,8 +23,8 @@ public interface AdoptRepository extends JpaRepository<Adopt, Long> {
 
 	
 	@Modifying(clearAutomatically = true)
-	@Query("UPDATE Adopt a SET a.adoptState = :adoptState WHERE a.adoptNum = :adoptNum")
-	void updateAdopt(Long adoptNum, String adoptState);
+	@Query("UPDATE Adopt a SET a.adoptState = :adoptState, a.approvedDate = :approvedDate WHERE a.adoptNum = :adoptNum")
+	void updateAdopt(Long adoptNum, LocalDateTime approvedDate,String adoptState);
 
 
 

@@ -150,4 +150,10 @@ public class MemberController {
     	System.out.println("hello");
         return memberService.getMemberInfo(memberNum);
     }
+    
+    @GetMapping("/getMemberDetail/{memberNum}")
+    public Member getMemberDetail(@PathVariable Long memberNum){
+    	System.out.println("hello");
+        return memberService.getMemberDetail(memberNum);
+    }
 }
