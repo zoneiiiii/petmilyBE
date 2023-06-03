@@ -29,30 +29,34 @@ public class Pet {
     @Column
     private String petName;
     
-    @Column
-    private String petAge;
-    
-    @Column
-    private String petImg;
-    
-    @Column
-    private String petSpecies;
-    
-    @Column
-    private String shelterName;
-    
-    @Column
-    private String shelterTel;
-    
-    @Column
-    private String shelterAddr;
-
-    @Column
-    private LocalDateTime shelterDate;
-    @Column
-    private String sexCd;
-    
-    @Column
-    private String neuterYn;
+//    @Column
+//    private String petAge;
+//    
+//    @Column
+//    private String petImg;
+//    
+//    @Column
+//    private String petSpecies;
+//    
+//    @Column
+//    private String shelterName;
+//    
+//    @Column
+//    private String shelterTel;
+//    
+//    @Column
+//    private String shelterAddr;
+//
+//    @Column
+//    private LocalDateTime applicateDate;
+//    
+//    @Column
+//    private LocalDateTime approvedDate;
+//    
+//    @Column
+//    private String sexCd;
+//    
+//    @Column
+//    private String neuterYn;
 
 }

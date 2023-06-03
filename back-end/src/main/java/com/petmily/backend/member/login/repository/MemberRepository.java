@@ -23,6 +23,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Member findByMemberId(String memberId);
 	Member findByMemberNum(Long memberNum);
+	Member findAllByMemberNum(Long memberNum);
 
 	@NotNull
 	Page<Member> findAll(@NotNull Pageable pageable); //멤버 pagination

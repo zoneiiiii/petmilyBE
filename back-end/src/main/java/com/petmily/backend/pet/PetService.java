@@ -33,16 +33,8 @@ public class PetService {
 
         pet.setMemberNum(member.getMemberNum());
         pet.setPetName(petDto.getPetName());
-        pet.setPetAge(petDto.getPetAge());
-        pet.setPetImg(petDto.getPetImg());
-        pet.setPetSpecies(petDto.getPetSpecies());
-        pet.setShelterName(petDto.getShelterName());
-        pet.setShelterTel(petDto.getShelterTel());
-        pet.setShelterAddr(petDto.getShelterAddr());
-        pet.setShelterDate(petDto.getShelterDate());
-        pet.setSexCd(petDto.getSexCd());
-        pet.setNeuterYn(petDto.getNeuterYn());
-
+ 
+        
         repository.save(pet);
 
         return convertToDto(pet);
@@ -67,15 +59,16 @@ public class PetService {
 		PetDto petDto = new PetDto();
 		petDto.setMemberNum(pet.getMemberNum());
 		petDto.setPetName(pet.getPetName());
-		petDto.setPetAge(pet.getPetAge());
-		petDto.setPetImg(pet.getPetImg());
-		petDto.setPetSpecies(pet.getPetSpecies());
-		petDto.setShelterName(pet.getShelterName());
-		petDto.setShelterTel(pet.getShelterTel());
-		petDto.setShelterAddr(pet.getShelterAddr());
-		petDto.setShelterDate(pet.getShelterDate());
-		petDto.setSexCd(pet.getSexCd());
-		petDto.setNeuterYn(pet.getNeuterYn());
+//		petDto.setPetAge(pet.getPetAge());
+//		petDto.setPetImg(pet.getPetImg());
+//		petDto.setPetSpecies(pet.getPetSpecies());
+//		petDto.setShelterName(pet.getShelterName());
+//		petDto.setShelterTel(pet.getShelterTel());
+//		petDto.setShelterAddr(pet.getShelterAddr());
+//		petDto.setApplicateDate(pet.getApplicateDate());
+//
+//		petDto.setSexCd(pet.getSexCd());
+//		petDto.setNeuterYn(pet.getNeuterYn());
  
         return petDto;
      }
