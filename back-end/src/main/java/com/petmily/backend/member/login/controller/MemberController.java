@@ -152,16 +152,17 @@ public class MemberController {
     }
 
     @GetMapping("/get-userinfo")
-    public ResponseEntity<Member> getLoggedInUserInfo(){
+    public ResponseEntity<Member> getLoggedInUserInfo() {
         String loggedInUserId = (String) httpSession.getAttribute("id");
 
-        if(loggedInUserId != null){
+        if (loggedInUserId != null) {
             Member member = memberService.getMember(loggedInUserId);
             return new ResponseEntity<>(member, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-    
+    }
+
     @GetMapping("/getMemberDetail/{memberNum}")
     public Member getMemberDetail(@PathVariable Long memberNum){
     	System.out.println("hello");
