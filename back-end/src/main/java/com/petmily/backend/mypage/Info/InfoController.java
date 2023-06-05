@@ -25,5 +25,10 @@ public class InfoController {
 		return infoService.getInfo(id);
 	}
 	
+	@GetMapping("/getNavInfo")
+	NavInfo getNavInfo() {
+		String id = (String)httpSession.getAttribute("id");
+		return infoService.getNavInfo(id);
+	}
 	
 }
