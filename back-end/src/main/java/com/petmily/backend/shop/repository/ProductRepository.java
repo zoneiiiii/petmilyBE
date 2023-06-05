@@ -15,7 +15,7 @@ import com.petmily.backend.shop.dto.ProductList;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	@Query(nativeQuery=true, value="select p.boardNum, p.productName, p.productCost, p.imgThumbnail, p.productCategory "
-			+ "from product p")
+			+ "from product p order by p.boardNum desc")
 	List<ProductList> getProducts();
 	
 	@Query(nativeQuery=true, value="select p.boardNum, p.productName, p.productCost, p.imgThumbnail, "
