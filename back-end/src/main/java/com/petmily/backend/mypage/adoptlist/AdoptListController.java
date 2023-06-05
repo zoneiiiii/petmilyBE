@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.petmily.backend.pet.PetDto;
-
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +26,15 @@ public class AdoptListController {
 	private final HttpSession httpSession;
 	
 	@GetMapping("/getList")
-	public List<PetDto> getList() {
+	public List<AdoptListResponse> getList() {
 		String id = (String)httpSession.getAttribute("id");
 		if(id == null) return null;
 		return adoptListService.getList(id);
 	}
 	
 	@PostMapping("/update/name")
-	public PetDto updateName(@RequestBody @Valid AdoptListRequest request, BindingResult bindingResult) {
-		System.out.println("controller: request.petNum: " + request.getPetNum() + ", petName: " + request.getPetName() + ", petImg: " + request.getPetImg());
+	public AdoptListResponse updateName(@RequestBody @Valid AdoptListRequest request, BindingResult bindingResult) {
+		System.out.println("controller: request.petNum: " + request.getAdoptNum() + ", petName: " + request.getPetName() + ", petImg: " + request.getPetImg());
 		if(!bindingResult.hasErrors()) {
 			
 		return adoptListService.updateName(request);
@@ -45,7 +43,7 @@ public class AdoptListController {
 	}
 	
 	@PostMapping("/update/img")
-	public PetDto updateImg(@RequestBody @Valid AdoptListRequest request) {
+	public AdoptListResponse updateImg(@RequestBody @Valid AdoptListRequest request) {
 		return adoptListService.updateImg(request);
 		
 	}

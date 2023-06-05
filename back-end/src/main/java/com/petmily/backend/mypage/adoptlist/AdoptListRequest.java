@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class AdoptListRequest {
 	@NotNull
-	private Long petNum;
+	private Long adoptNum;
 	@NotEmpty
 	private String PetName;
 	private String petImg;
