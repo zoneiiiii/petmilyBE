@@ -3,6 +3,7 @@ package com.petmily.backend.shop.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.petmily.backend.shop.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +47,11 @@ public class ProductService {
 	public ProductDetail getProduct(Long boardNum) {
 		ProductDetail product = productRepository.findProductDetail(boardNum);
 		return product;
+	}
+
+	@Transactional // utm 추가-230603
+	public Product getProducts(Long boardNum) {
+		return productRepository.findProductByBoardNum(boardNum);
 	}
 
 	public void addCart(ProductAddCart addCart) {

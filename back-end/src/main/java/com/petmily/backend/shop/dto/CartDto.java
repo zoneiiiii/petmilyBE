@@ -8,7 +8,9 @@ import lombok.Setter;
 public class CartDto {
 	private Long cartNum;
 	private Long memberNum;
-	private Long productNum;
+	private Long boardNum;
+	private String productName;
+	private String ThumbnailImg;
 	private int quantity;
-	private int cost;
+	private int productCost;
 }

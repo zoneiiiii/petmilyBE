@@ -1,60 +1,82 @@
 package com.petmily.backend.shop.domain;
 
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.support.donate.domain.Payment;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-import org.joda.time.DateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name="orderlist")
+@Getter
+@NoArgsConstructor
+
 public class Orderlist {
 	
-	@Id
+// 	@Id
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
+// 	private long orderNum;
+	
+// 	@Column
+// 	private int memberNum;
+	
+// 	@Column
+// 	private int boardNum;
+
+// 	@Column
+// 	private DateTime orderDate;
+
+// 	@Column
+// 	private int quantity;
+
+// 	@Column
+// 	private int cost;
+
+// 	@Column
+// 	private String orderState;
+
+// 	@Column
+// 	private int postal;
+
+// 	@Column
+// 	private String address;
+
+// 	@Column
+// 	private String addressDetail;
+
+// 	@Column
+// 	private String note;
+
+// 	@Column
+// 	private String recipient;
+
+// 	@Column
+// 	private String recipientTel;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long orderNum;
-	
-	@Column
-	private int memberNum;
-	
-	@Column
-	private int boardNum;
+    private Long orderlistNum;
 
-	@Column
-	private DateTime orderDate;
+    @ManyToOne
+    @JoinColumn(name = "orderNum", nullable = false)
+    private Orders orders;
 
-	@Column
-	private int quantity;
+    @ManyToOne
+    @JoinColumn(name="boardNum", nullable = false)
+    private Product product;
 
-	@Column
-	private int cost;
+    private int quantity;
 
-	@Column
-	private String orderState;
+    private int cost;
 
-	@Column
-	private int postal;
+    public Orderlist(Orders orders, Product product, int quantity, int cost) {
+        this.orders = orders;
+        this.product = product;
+        this.quantity = quantity;
+        this.cost = cost;
+    }
 
-	@Column
-	private String address;
-
-	@Column
-	private String addressDetail;
-
-	@Column
-	private String note;
-
-	@Column
-	private String recipient;
-
-	@Column
-	private String recipientTel;
 
 }
