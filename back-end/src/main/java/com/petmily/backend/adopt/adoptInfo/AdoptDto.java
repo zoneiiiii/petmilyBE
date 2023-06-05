@@ -3,6 +3,7 @@ package com.petmily.backend.adopt.adoptInfo;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +22,13 @@ public class AdoptDto {
 	 private String adopterEmail;
 	 private LocalDateTime adoptDate;
 	 private String adoptState;
+	 private String petAge;
+	 private String petSpecies;
+	 private String shelterName;
+	 private String shelterTel;
+	 private String shelterAddr;
+	 private LocalDateTime approvedDate;
+	 private String sexCd;
+	 private String neuterYn;
 
 }

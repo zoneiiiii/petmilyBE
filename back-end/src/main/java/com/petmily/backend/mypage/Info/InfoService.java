@@ -27,4 +27,14 @@ public class InfoService {
 				.memberImg(member.getMemberImg())
 				.build();
 	}
+
+	public NavInfo getNavInfo(String id) {
+		Member member = memberRepository.findByMemberId(id);
+		NavInfo navInfo = NavInfo.builder()
+				.memberNum(member.getMemberNum())
+				.memberNickname(member.getMemberNickname())
+				.memberImg(member.getMemberImg())
+				.build();
+		return navInfo;
+	}
 }

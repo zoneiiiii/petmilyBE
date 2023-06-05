@@ -4,9 +4,8 @@ public interface ProductDetail {
 	
 	Long getBoardNum();
 	String getProductName();
-	String getProductCost();
+	int getProductCost();
 	String getImgThumbnail();
 	String getProductImg();
 	String getProductContent();
-
 }

@@ -159,5 +159,9 @@ public class MemberService {
     public Member getMemberInfo(Long memberNum) {
     	return repository.findById(memberNum).orElse(null);
     }
+    
+    public Member getMemberDetail(Long memberNum) {
+    	return repository.findAllByMemberNum(memberNum);
+    }
 
 }

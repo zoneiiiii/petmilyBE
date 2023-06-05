@@ -37,5 +37,7 @@ public class Cart {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	private String productName;
 
 }

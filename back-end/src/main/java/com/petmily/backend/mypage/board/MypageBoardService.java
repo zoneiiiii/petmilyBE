@@ -106,7 +106,7 @@ public class MypageBoardService {
 //    }
     @Transactional
     public Page<VolunteerReviewDto> getReviewByMemberNum(int page, Long memberNum) {
-        Pageable pageable = PageRequest.of(page, 6, Sort.Direction.DESC, "reviewDate");
+        Pageable pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "reviewDate");
         Page<VolunteerReview> volunteerReviews = reviewRepository.findReviewByMemberNum(memberNum,pageable);
 
         return volunteerReviews.map(this::convertToDto);

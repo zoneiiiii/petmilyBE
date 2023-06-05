@@ -27,14 +27,6 @@ public class QnAService {
     @Autowired
     private MemberService memberService;
 
-//    public List<QnADto> getQnAList(){
-//        List<QnABoard> qnaList = qnaRepository.findAll(Sort.by(Sort.Direction.DESC, "boardNum"));
-//
-//        return qnaList.stream()
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//    }
-//    
     public Page<QnADto> getAllQnA(int page){
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "boardNum");
         Page<QnABoard> qna = qnaRepository.findAll(pageable);
@@ -49,7 +41,7 @@ public class QnAService {
         return convertToDto(qna);
     }
     
-         @Transactional
+    @Transactional
     public Page<QnADto> getQnAByMemberNum(int page, Long memberNum) {
         Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "boardNum");
         Page<QnABoard> qna = qnaRepository.findQnAByMemberNum(memberNum,pageable);

@@ -161,5 +161,10 @@ public class MemberController {
         }else{
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+    
+    @GetMapping("/getMemberDetail/{memberNum}")
+    public Member getMemberDetail(@PathVariable Long memberNum){
+    	System.out.println("hello");
+        return memberService.getMemberDetail(memberNum);
     }
 }

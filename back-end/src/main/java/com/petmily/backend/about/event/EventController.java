@@ -40,7 +40,7 @@ public class EventController {
 			@RequestParam(value="search_mode", defaultValue="subject") String search_mode) {
 		Page<EventList> paging = null;
 		try {
-			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("&", " ").trim().replaceAll("\\s+", "|");
+			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("[!@#$%^&*()]", " ").trim().replaceAll("\\s+", "|");
 			paging = this.eventService.getList(page, limit, keyword, search_mode);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
