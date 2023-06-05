@@ -1,22 +1,41 @@
 package com.petmily.backend.shop.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.petmily.backend.comment.domain.Comment;
+import com.petmily.backend.member.login.domain.Member;
+import com.petmily.backend.member.login.service.MemberService;
+import com.petmily.backend.mypage.qna.domain.QnABoard;
+import com.petmily.backend.mypage.qna.dto.QnADto;
+import com.petmily.backend.shop.domain.Product;
 import com.petmily.backend.shop.dto.ProductAddCart;
 import com.petmily.backend.shop.dto.ProductDetail;
 import com.petmily.backend.shop.dto.ProductDto;
 import com.petmily.backend.shop.dto.ProductList;
 import com.petmily.backend.shop.repository.ProductRepository;
+import com.petmily.backend.support.volunteer.domain.Volunteer;
+import com.petmily.backend.support.volunteer.dto.VolunteerDto;
+import com.petmily.backend.support.volunteerReview.domain.VolunteerReview;
+import com.petmily.backend.support.volunteerReview.dto.VolunteerReviewDto;
 
 @Service
 public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+    private MemberService memberService;
 
 	@Transactional
 	public List<ProductList> getProductList() {
@@ -41,4 +60,62 @@ public class ProductService {
 					addCart.getProductCost(), addCart.getImgThumbnail(), addCart.getQuantity());
 		}
 	}
+	
+	public Page<Product> getProducts(Pageable pageable){
+        return productRepository.findAll(pageable);
+    }
+	
+    private ProductDto convertToDto(Product product) {
+    	ProductDto prodDto = new ProductDto();
+    	prodDto.setBoardNum(product.getBoardNum());
+    	prodDto.setBoardId(product.getBoardId());
+    	prodDto.setProductName(product.getProductName());
+    	prodDto.setProductCost(product.getProductCost());
+    	prodDto.setProductContent(product.getProductContent());
+    	prodDto.setProductImg(product.getProductImg());
+    	prodDto.setProductAmount(product.getProductAmount());
+    	prodDto.setImgThumbnail(product.getImgThumbnail());
+    	prodDto.setMemberNum(product.getMemberNum());
+    	prodDto.setProductCategory(product.getProductCategory());
+        return prodDto;
+    }
+
+    public ProductDto createProduct(ProductDto prodDto, String memberId){
+        Product product = new Product();
+        Member member = memberService.getMember(memberId); 
+        product.setBoardId("shop");
+        product.setProductName(prodDto.getProductName());
+        product.setProductCost(prodDto.getProductCost());
+        product.setProductContent(prodDto.getProductContent());
+        product.setProductImg(prodDto.getProductImg());
+        product.setProductAmount(prodDto.getProductAmount());
+        product.setImgThumbnail(prodDto.getImgThumbnail());
+        product.setMemberNum(member.getMemberNum());
+        product.setProductCategory(prodDto.getProductCategory());
+        productRepository.save(product);
+
+        return convertToDto(product);
+    }
+    
+    public ProductDto updateProduct (Long boardNum, ProductDto prodDto, String loggedInUserId){
+    	Member member = memberService.getMember(loggedInUserId);
+        Product product = productRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+        if(!member.getMemberNum().equals(product.getMemberNum())){
+            throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다.");
+        }
+        product.setBoardId("shop");
+        product.setProductName(prodDto.getProductName());
+        product.setProductCost(prodDto.getProductCost());
+        product.setProductContent(prodDto.getProductContent());
+        product.setProductImg(prodDto.getProductImg());
+        product.setProductAmount(prodDto.getProductAmount());
+        product.setImgThumbnail(prodDto.getImgThumbnail());
+        product.setMemberNum(member.getMemberNum());
+        product.setProductCategory(prodDto.getProductCategory());
+
+        productRepository.save(product);
+        return convertToDto(product);
+    }
+	
 }
