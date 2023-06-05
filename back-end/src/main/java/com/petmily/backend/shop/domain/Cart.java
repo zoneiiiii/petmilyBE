@@ -32,6 +32,8 @@ public class Cart {
 	
 	private int quantity;
 	
-	private int cost;
+	private int productCost;
+	
+	private String productName;
 
 }
