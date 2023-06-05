@@ -51,7 +51,8 @@ public class EventService {
 				break;
 			}
 		}
-		Page<EventList> eventList = event.map(n -> EventList.EventToListDto(n));
+		Page<EventList> eventList = null;
+		if(event != null) eventList = event.map(e -> EventList.EventToListDto(e));
 		return eventList;
 	}
 
