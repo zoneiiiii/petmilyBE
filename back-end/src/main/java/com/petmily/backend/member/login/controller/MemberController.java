@@ -150,4 +150,16 @@ public class MemberController {
     	System.out.println("hello");
         return memberService.getMemberInfo(memberNum);
     }
+
+    @GetMapping("/get-userinfo")
+    public ResponseEntity<Member> getLoggedInUserInfo(){
+        String loggedInUserId = (String) httpSession.getAttribute("id");
+
+        if(loggedInUserId != null){
+            Member member = memberService.getMember(loggedInUserId);
+            return new ResponseEntity<>(member, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 }
