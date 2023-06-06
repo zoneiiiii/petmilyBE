@@ -37,6 +37,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Query(nativeQuery=true, value="select count(*) from cart c where c.memberNum = (select memberNum from member where memberId = :memberId) and c.boardNum = :boardNum")
 	long productCheck(@Param("memberId") String memberId, @Param("boardNum") int boardNum);
-	
+
+	Product findProductByBoardNum(Long boardNum); // utm 추가-230604
 	
 }
