@@ -77,4 +77,9 @@ public class EventController {
 		}
 		else return 0;
 	}
+	
+	@GetMapping("/count")
+	public long getCount() {
+		return this.eventService.getCount();
+	}
 }

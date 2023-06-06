@@ -76,6 +76,12 @@ public class NoticeController {
 			System.out.println(this.noticeService.updateNotice(noticeForm, id));
 		}
 	}
+	
+	@GetMapping("/count")
+	public long getCount() {
+		return this.noticeService.getCount();
+	}
+	
 //	@PostMapping("/delete")
 //	public void deleteNotice(Long boardNum) {
 //		return this.noticeService.deleteNotice(boardNum)

@@ -1,4 +1,4 @@
-package com.petmily.backend.admin.board.find;
+package com.petmily.backend.admin.board.free;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -17,23 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/admin/board/find")
+@RequestMapping("/admin/board/free")
 @RequiredArgsConstructor
 @RestController
-public class AdminFindBoardController {
+public class AdminFreeBoardController {
 	@Autowired
-	private final AdminFindBoardService adminFindBoardService;
+	private final AdminFreeBoardService adminFreeBoardService;
 	
 	@GetMapping("/list")
-	public Page<AdminFindBoard> getList(
+	public Page<AdminFreeBoard> getList(
 			@RequestParam(value="page", defaultValue="0") int page, 
 			@RequestParam(value="limit", defaultValue="20") int limit, 
 			@RequestParam(value="search", defaultValue="") String search, 
 			@RequestParam(value="search_mode", defaultValue="subject") String search_mode) {
-		Page<AdminFindBoard> reviewList = null;
+		Page<AdminFreeBoard> reviewList = null;
 		try {
 			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("&", " ").trim().replaceAll("\\s+", "|");
-			reviewList = this.adminFindBoardService.getAdminFindBoardList(page, limit, keyword, search_mode);
+			reviewList = this.adminFreeBoardService.getAdminFreeBoardList(page, limit, keyword, search_mode);
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -42,9 +42,9 @@ public class AdminFindBoardController {
 	}
 	
 	@DeleteMapping("/delete")
-	public ResponseEntity<Boolean> deleteFindBoardList(@RequestBody Map<String, List<Long>> requestBody) {
+	public ResponseEntity<Boolean> deleteFreeBoardList(@RequestBody Map<String, List<Long>> requestBody) {
 		List<Long> boardNums = requestBody.get("boardNums");
-		this.adminFindBoardService.deleteFindBoardList(boardNums);
+		this.adminFreeBoardService.deleteFreeBoardList(boardNums);
 		return ResponseEntity.ok(true);
 	}
 

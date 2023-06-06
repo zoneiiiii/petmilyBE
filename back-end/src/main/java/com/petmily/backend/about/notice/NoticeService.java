@@ -90,4 +90,8 @@ public class NoticeService {
 		return this.noticeRepository.updateNotice(noticeForm);
 		
 	}
+	
+	public long getCount() {
+		return this.noticeRepository.count();
+	}
 }

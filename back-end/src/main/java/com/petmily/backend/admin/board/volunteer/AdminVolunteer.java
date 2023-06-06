@@ -9,46 +9,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
-public class AdminVolunteer {
-	private Long boardNum;
-	private Long memberNum;
-	private String boardId;
-	private String subject;
-	private String content;
-	private String thumbnail;
-	private int count;
-	private LocalDateTime postDate;
+public interface AdminVolunteer {
+	public Long getBoardNum();
+	public Long getMemberNum();
+	public String getMemberId();
+	public String getBoardId();
+	public String getSubject();
+	public String getContent();
+//	public String getThumbnail();
+	public Integer getCount();
+	public LocalDateTime getPostDate();
 	
-	private String shelterName;
-	private Integer volunteerNumber;
-	private String volunteerAge;
-	private String volunteerAddr;
-	private String volunteerAddrDetail;
-	private Date volunteerStartPeriod;
-	private Date volunteerEndPeriod;
-	private Boolean volunteerStatus;
-	
-	public static AdminVolunteer VolunteerToAdminVolunteer(Volunteer volunteer) {
-		return AdminVolunteer.builder()
-				.boardNum(volunteer.getBoardNum())
-				.memberNum(volunteer.getMemberNum())
-				.boardId(volunteer.getBoardId())
-				.subject(volunteer.getVolunteerSubject())
-				.content(volunteer.getVolunteerContent())
-				.thumbnail(volunteer.getImgThumbnail())
-				.count(volunteer.getVolunteerCount())
-				.postDate(volunteer.getVolunteerDate())
-				.shelterName(volunteer.getShelterName())
-				.volunteerNumber(volunteer.getVolunteerNumber())
-				.volunteerAge(volunteer.getVolunteerAge())
-				.volunteerAddr(volunteer.getVolunteerAddr())
-				.volunteerAddrDetail(volunteer.getVolunteerAddrDetail())
-				.volunteerStartPeriod(volunteer.getVolunteerStartPeriod())
-				.volunteerEndPeriod(volunteer.getVolunteerEndPeriod())
-				.volunteerStatus(volunteer.getVolunteerStatus())
-				.build();
-	}
+//	public String getShelterName();
+//	public Integer getVolunteerNumber();
+//	public String getVolunteerAge();
+//	public String getVolunteerAddr();
+//	public String getVolunteerAddrDetail();
+//	public Date getVolunteerStartPeriod();
+//	public Date getVolunteerEndPeriod();
+//	public Boolean getVolunteerStatus();
 }

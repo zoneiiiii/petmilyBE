@@ -8,29 +8,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
-public class AdminVolunteerReview {
-	private Long boardNum;
-	private Long memberNum;
-	private String boardId;
-	private String subject;
-	private String content;
-	private String thumbnail;
-	private int count;
-	private LocalDateTime postDate;
+public interface AdminVolunteerReview {
+	public Long getBoardNum();
+	public Long getMemberNum();
+	public String getMemberId();
+	public String getBoardId();
+	public String getSubject();
+	public String getContent();
+//	public String getThumbnail();
+	public Integer getCount();
+	public LocalDateTime getPostDate();
 	
-	public static AdminVolunteerReview VolunteerToAdminVolunteerReview(VolunteerReview volunteerReview) {
-		return AdminVolunteerReview.builder()
-				.boardNum(volunteerReview.getBoardNum())
-				.memberNum(volunteerReview.getMemberNum())
-				.boardId(volunteerReview.getBoardId())
-				.subject(volunteerReview.getReviewContent())
-				.content(volunteerReview.getReviewContent())
-				.thumbnail(volunteerReview.getImgThumbnail())
-				.count(volunteerReview.getReviewCount())
-				.postDate(volunteerReview.getReviewDate())
-				.build();
-	}
 }

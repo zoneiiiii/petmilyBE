@@ -15,7 +15,7 @@ public interface AdminFindBoard {
 	public String getBoardId();
 	public String getSubject();
 	public String getContent();
-	public String getThumbnail();
+//	public String getThumbnail();
 	public Integer getCount();
 	public LocalDateTime getPostDate();
 //	
