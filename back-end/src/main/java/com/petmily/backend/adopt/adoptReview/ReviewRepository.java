@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.petmily.backend.community.free.board.FreeBoardDetail;
+
 
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
@@ -26,6 +28,14 @@ public interface ReviewRepository extends JpaRepository<ReviewBoard, Long> {
 					+ "FROM reviewboard r "
 					+ "JOIN member m ON r.memberNum = m.memberNum ORDER BY r.reviewDate DESC")
 	List<ReviewBoardList> getReviewBoards();
+	
+	// 게시글 조회(Read)
+		@Query(
+				nativeQuery=true,
+				value="SELECT r.*, m.memberNickName, m.memberImg "
+				+ "FROM reviewboard r "
+				+ "JOIN member m ON r.memberNum = m.memberNum WHERE r.boardNum = :boardNum")
+		ReviewBoardDetail findReviewBoardDetail(@Param("boardNum") Long boardNum);
 	
 	
 	@Modifying(clearAutomatically = true)
