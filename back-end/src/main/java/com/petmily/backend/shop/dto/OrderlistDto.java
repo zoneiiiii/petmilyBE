@@ -13,4 +13,5 @@ public class OrderlistDto {
     private Long boardNum;
     private int quantity;
     private int cost;
+    private String productName;
 }
