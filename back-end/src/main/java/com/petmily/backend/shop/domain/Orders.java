@@ -39,10 +39,12 @@ public class Orders {
 
     private String recipientTel;
 
+    private Integer totalCost;
+
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<Orderlist> orderlists = new ArrayList<>();
 
-    public Orders(Member member, LocalDateTime orderDate, String orderState, String address, String addressDetail, String postal, String note, String recipient, String recipientTel) {
+    public Orders(Member member, LocalDateTime orderDate, String orderState, String address, String addressDetail, String postal, String note, String recipient, String recipientTel, Integer totalCost) {
         this.member = member;
         this.orderDate = orderDate;
         this.orderState = orderState;
@@ -52,6 +54,11 @@ public class Orders {
         this.note = note;
         this.recipient = recipient;
         this.recipientTel = recipientTel;
+        this.totalCost = totalCost;
+    }
+
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
     }
 
 }

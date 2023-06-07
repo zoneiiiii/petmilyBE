@@ -15,10 +15,17 @@ import com.petmily.backend.support.donate.dto.PaymentDto;
 import com.petmily.backend.support.donate.repository.PaymentRepository;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
+import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -54,7 +61,8 @@ public class OrderService {
                 ordersDto.getPostal(),
                 ordersDto.getNote(),
                 ordersDto.getRecipient(),
-                ordersDto.getRecipientTel()
+                ordersDto.getRecipientTel(),
+                ordersDto.getTotalCost()
         );
 
         Orders savedOrders = ordersRepository.save(orders);
@@ -109,6 +117,91 @@ public class OrderService {
 
         ordersDto.setOrderNum(savedOrders.getOrderNum());
         return ordersDto;
+    }
+
+    public List<OrdersDto> getAllOrders() {
+        List<Orders> orders = ordersRepository.findAll();
+        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<OrdersDto> getAllOrdersASC() {
+        List<Orders> orders = ordersRepository.findAll(Sort.by(Sort.Direction.ASC, "orderDate"));
+        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<OrdersDto> getAllOrdersDESC() {
+        List<Orders> orders = ordersRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate"));
+        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public Page<OrdersDto> getOrders(Pageable pageable){
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("orderDate").descending());
+        Page<Orders> orders = ordersRepository.findAll(pageable);
+        return orders.map(this::convertToDto);
+    }
+
+    public long getTotalOrders(){
+        return ordersRepository.count();
+    }
+
+    public List<OrdersDto> getAllOrders(String loggedInUserId) {
+        Member member = memberService.getMember(loggedInUserId);
+        List<Orders> orders = ordersRepository.findByMember(member);
+        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<OrderlistDto> getAllOrderlist(){
+        List<Orderlist> orderlists = orderlistRepository.findAll();
+        return orderlists.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<OrderlistDto> getOrderlistByOrderNum(Long orderNum) {
+        Orders orders = ordersRepository.findById(orderNum).orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다. orderNum: " + orderNum));
+        List<Orderlist> orderlists = orderlistRepository.findByOrders(orders);
+
+        return orderlists.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public void updateOrderState(Long orderNum, String orderState) {
+        Orders order = ordersRepository.findById(orderNum)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다. orderNum: " + orderNum));
+        order.setOrderState(orderState);
+    }
+
+    public double calculateTotalCost(){
+        List<Orders> orders = ordersRepository.findAll();
+        return orders.stream()
+                .mapToDouble(Orders::getTotalCost)
+                .sum();
+    }
+
+    private OrdersDto convertToDto(Orders orders) {
+        OrdersDto dto = new OrdersDto();
+        dto.setOrderNum(orders.getOrderNum());
+        dto.setMemberNum(orders.getMember().getMemberNum());
+        dto.setMemberId(orders.getMember().getMemberId());
+        dto.setOrderDate(orders.getOrderDate());
+        dto.setOrderState(orders.getOrderState());
+        dto.setAddress(orders.getAddress());
+        dto.setAddressDetail(orders.getAddressDetail());
+        dto.setPostal(orders.getPostal());
+        dto.setNote(orders.getNote());
+        dto.setRecipient(orders.getRecipient());
+        dto.setRecipientTel(orders.getRecipientTel());
+        dto.setTotalCost(orders.getTotalCost());
+        dto.setOrderlists(getOrderlistByOrderNum(orders.getOrderNum()));
+        return dto;
+    }
+
+    private OrderlistDto convertToDto(Orderlist orderlist) {
+        OrderlistDto dto = new OrderlistDto();
+        dto.setOrderlistNum(orderlist.getOrderlistNum());
+        dto.setOrderNum(orderlist.getOrders().getOrderNum());
+        dto.setBoardNum(orderlist.getProduct().getBoardNum());
+        dto.setQuantity(orderlist.getQuantity());
+        dto.setProductName(orderlist.getProduct().getProductName());
+        dto.setCost(orderlist.getCost());
+        return dto;
     }
 
 }
