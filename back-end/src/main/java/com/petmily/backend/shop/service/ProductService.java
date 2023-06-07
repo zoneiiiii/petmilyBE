@@ -6,28 +6,20 @@ import java.util.NoSuchElementException;
 import com.petmily.backend.shop.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.petmily.backend.comment.domain.Comment;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.service.MemberService;
-import com.petmily.backend.mypage.qna.domain.QnABoard;
-import com.petmily.backend.mypage.qna.dto.QnADto;
 import com.petmily.backend.shop.domain.Product;
 import com.petmily.backend.shop.dto.ProductAddCart;
 import com.petmily.backend.shop.dto.ProductDetail;
 import com.petmily.backend.shop.dto.ProductDto;
 import com.petmily.backend.shop.dto.ProductList;
 import com.petmily.backend.shop.repository.ProductRepository;
-import com.petmily.backend.support.volunteer.domain.Volunteer;
-import com.petmily.backend.support.volunteer.dto.VolunteerDto;
-import com.petmily.backend.support.volunteerReview.domain.VolunteerReview;
-import com.petmily.backend.support.volunteerReview.dto.VolunteerReviewDto;
+
 
 @Service
 public class ProductService {
@@ -122,6 +114,13 @@ public class ProductService {
 
         productRepository.save(product);
         return convertToDto(product);
+    }
+    
+    public void deleteProduct(Long boardNum){
+    	Product product = productRepository.findById(boardNum)
+                .orElseThrow(() -> new NoSuchElementException("해당 boardNum을 찾을 수 없습니다." + boardNum));
+
+    	productRepository.delete(product);
     }
 	
 }
