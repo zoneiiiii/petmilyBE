@@ -30,8 +30,9 @@ public class ReviewController {
 		this.httpSession = httpSession;
 	}
 	
+	// 게시글 상세조회
 	@GetMapping("/{boardNum}")
-    public ReviewBoard getBoard(@PathVariable Long boardNum) {
+    public ReviewBoardDetail getBoard(@PathVariable Long boardNum) {
         return reviewService.getReviewBoard(boardNum);
     }
 

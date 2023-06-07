@@ -66,8 +66,8 @@ public class ReviewService {
     }
     
     @Transactional 
-    public ReviewBoard getReviewBoard(Long boardNum) {
-    	ReviewBoard getReviewDetail = repository.findByBoardNum(boardNum);
+    public ReviewBoardDetail getReviewBoard(Long boardNum) {
+    	ReviewBoardDetail getReviewDetail = repository.findReviewBoardDetail(boardNum);
     	repository.updateBoardCount(boardNum);
         return getReviewDetail;
     }
