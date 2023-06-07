@@ -1,11 +1,10 @@
 package com.petmily.backend.adopt.adoptInfo;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 import com.petmily.backend.member.login.domain.Member;
 import com.petmily.backend.member.login.repository.MemberRepository;
 import com.petmily.backend.member.login.service.MemberService;
@@ -55,9 +54,9 @@ public class AdoptService {
     }
  
 	@Transactional
-    public List<Adopt> adoptList(){
+    public Page<Adopt> adoptList(Pageable pageable){
     	
-        return repository.findAllByOrderByAdoptDateDesc();
+        return repository.findAllByOrderByAdoptDateDesc(pageable);
     }
 	
 	@Transactional

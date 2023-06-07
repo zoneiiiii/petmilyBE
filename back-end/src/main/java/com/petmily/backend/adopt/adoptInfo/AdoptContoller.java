@@ -1,10 +1,9 @@
 package com.petmily.backend.adopt.adoptInfo;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.petmily.backend.adopt.adoptReview.ReviewBoard;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -40,11 +37,11 @@ public class AdoptContoller {
     }
 	
 	@GetMapping("/list")
-	public List<Adopt> adoptList(Model model, HttpSession session){
+	public Page<Adopt> adoptList(Pageable pageable){
 //		String memberId = (String)session.getAttribute("id");
-		List<Adopt> adoptList = adoptService.adoptList();
-	    model.addAttribute("list",adoptList);
-	    return adoptList;
+//		List<Adopt> adoptList = adoptService.adoptList();
+//	    model.addAttribute("list",adoptList);
+	    return adoptService.adoptList(pageable);
 	}
 	 @GetMapping("/counts")
 	 public AdoptCountDto getAdoptCounts() {
