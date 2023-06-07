@@ -88,4 +88,10 @@ public class ProductController {
         log.info("사용자 {} boardNum {} 수정 완료 ", loggedInUserId, boardNum);
         return  ResponseEntity.ok(updatedProd);
     }
+	
+    @DeleteMapping("/delete/{boardNum}") //게시글 삭제
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long boardNum){
+    	productService.deleteProduct(boardNum);
+        return ResponseEntity.ok().build();
+    }
 }

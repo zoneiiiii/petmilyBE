@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<ProductList> getProducts();
 	
 	@Query(nativeQuery=true, value="select p.boardNum, p.productName, p.productCost, p.imgThumbnail, "
-			+ "p.productImg, p.productContent from product p where p.boardNum = :boardNum")
+			+ "p.productImg, p.productContent, p.productCategory, p.productAmount from product p where p.boardNum = :boardNum")
 	ProductDetail findProductDetail(@Param("boardNum") Long boardNum);
 	
 	

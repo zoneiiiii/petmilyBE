@@ -8,4 +8,6 @@ public interface ProductDetail {
 	String getImgThumbnail();
 	String getProductImg();
 	String getProductContent();
+	int getProductAmount();
+	String getProductCategory();
 }
