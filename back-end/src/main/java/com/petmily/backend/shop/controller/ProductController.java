@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,8 +61,12 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addCart")
-	public void addCart(@RequestBody ProductAddCart addCart) {
+	public ResponseEntity<String> addCart(@RequestBody ProductAddCart addCart) {
+		if (addCart.getMemberId() == null || addCart.getMemberId().isEmpty()) {
+			return new ResponseEntity<String>("User not logged in", HttpStatus.UNAUTHORIZED);
+		}
 		productService.addCart(addCart);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/lists") //관리자-전체 상품 리스트
