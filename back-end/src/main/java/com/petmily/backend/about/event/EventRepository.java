@@ -62,4 +62,6 @@ public interface EventRepository extends JpaRepository<EventBoard, Long> {
 			+ ") e, Member m where m.memberNum=e.memberNum and boardNum=:boardNum "
 			+ "ORDER BY boardNum;", nativeQuery = true)
 	Optional<EventView> getEventView(@Param("boardNum") Long num);
+	
+	long count();
 }

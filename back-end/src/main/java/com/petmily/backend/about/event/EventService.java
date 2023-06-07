@@ -92,4 +92,8 @@ public class EventService {
 		return this.eventRepository.updateEvent(eventForm);
 		
 	}
+	
+	public long getCount() {
+		return this.eventRepository.count();
+	}
 }

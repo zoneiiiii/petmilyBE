@@ -1,14 +1,8 @@
-package com.petmily.backend.admin.board.find;
+package com.petmily.backend.admin.board.missing;
 
 import java.time.LocalDateTime;
 
-import com.petmily.backend.community.find.board.FindBoard;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-public interface AdminFindBoard {
+public interface AdminMissingBoard {
 	public Long getBoardNum();
 	public Long getMemberNum();
 	public String getMemberId();
@@ -19,9 +13,10 @@ public interface AdminFindBoard {
 	public Integer getCount();
 	public LocalDateTime getPostDate();
 //	
+//	public String getBoardName();
 //	public String getBoardSpecies();
 //	public String getBoardLocation();
 //	public Integer getBoardAge();
 //	public String getBoardGender();
-	
+//	public Boolean getBoardStatus();
 }

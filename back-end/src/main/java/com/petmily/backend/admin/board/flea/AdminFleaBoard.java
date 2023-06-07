@@ -1,14 +1,8 @@
-package com.petmily.backend.admin.board.volunteerReview;
+package com.petmily.backend.admin.board.flea;
 
 import java.time.LocalDateTime;
 
-import com.petmily.backend.support.volunteerReview.domain.VolunteerReview;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-public interface AdminVolunteerReview {
+public interface AdminFleaBoard {
 	public Long getBoardNum();
 	public Long getMemberNum();
 	public String getMemberId();
@@ -18,5 +12,6 @@ public interface AdminVolunteerReview {
 //	public String getThumbnail();
 	public Integer getCount();
 	public LocalDateTime getPostDate();
+//	public String getCost();
 	
 }

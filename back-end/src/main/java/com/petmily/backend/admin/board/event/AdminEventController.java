@@ -1,4 +1,4 @@
-package com.petmily.backend.admin.board.find;
+package com.petmily.backend.admin.board.event;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -17,35 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/admin/board/find")
+@RequestMapping("/admin/board/event")
 @RequiredArgsConstructor
 @RestController
-public class AdminFindBoardController {
+public class AdminEventController {
+	
 	@Autowired
-	private final AdminFindBoardService adminFindBoardService;
+	private final AdminEventService eventService;
 	
 	@GetMapping("/list")
-	public Page<AdminFindBoard> getList(
+	public Page<AdminEventBoard> getList(
 			@RequestParam(value="page", defaultValue="0") int page, 
 			@RequestParam(value="limit", defaultValue="20") int limit, 
 			@RequestParam(value="search", defaultValue="") String search, 
 			@RequestParam(value="search_mode", defaultValue="subject") String search_mode) {
-		Page<AdminFindBoard> reviewList = null;
+		Page<AdminEventBoard> paging = null;
 		try {
-			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("&", " ").trim().replaceAll("\\s+", "|");
-			reviewList = this.adminFindBoardService.getAdminFindBoardList(page, limit, keyword, search_mode);
-			
+			String keyword = URLDecoder.decode(search, "UTF8").replaceAll("[!@#$%^&*()]", " ").trim().replaceAll("\\s+", "|");
+			paging = this.eventService.getList(page, limit, keyword, search_mode);
 		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return reviewList;
+		return paging;
 	}
-	
 	@DeleteMapping("/delete")
-	public ResponseEntity<Boolean> deleteFindBoardList(@RequestBody Map<String, List<Long>> requestBody) {
+	public ResponseEntity<Boolean> deleteEventBoardList(@RequestBody Map<String, List<Long>> requestBody) {
 		List<Long> boardNums = requestBody.get("boardNums");
-		this.adminFindBoardService.deleteFindBoardList(boardNums);
+		this.eventService.deleteEventBoardList(boardNums);
 		return ResponseEntity.ok(true);
 	}
-
 }

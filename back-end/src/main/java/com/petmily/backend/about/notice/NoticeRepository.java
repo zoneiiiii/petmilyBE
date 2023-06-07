@@ -48,4 +48,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 			+ ") n, Member m where m.memberNum=n.memberNum and boardNum=:boardNum "
 			+ "ORDER BY boardNum;", nativeQuery = true)
 	Optional<NoticeView> getNoticeView(@Param("boardNum") Long num);
+	
+	long count();
 }
