@@ -9,7 +9,6 @@ public class ProductAddCart {
 	private String memberId;
 	private String productName;
 	private int productCost;
-	private String imgThumbnail;
 	private int quantity;
 
 }

@@ -25,10 +25,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	
 	@Modifying
 	@Transactional
-	@Query(nativeQuery=true, value="insert into cart (boardNum, memberNum, productName, productCost, imgThumbnail, quantity)"
-			+ "values (:boardNum, (select memberNum from member where memberId = :memberId), :productName, :productCost, :imgThumbnail, :quantity)")
+	@Query(nativeQuery=true, value="insert into cart (boardNum, memberNum, productName, productCost, quantity)"
+			+ "values (:boardNum, (select memberNum from member where memberId = :memberId), :productName, :productCost, :quantity)")
 	void addCart(@Param("boardNum") int boardNum, @Param("memberId") String memberId, @Param("productName") String productName, @Param("productCost") int productCost,
-			@Param("imgThumbnail") String imgThumbnail, @Param("quantity") int quantity);
+			@Param("quantity") int quantity);
 	
 	@Modifying
 	@Transactional
