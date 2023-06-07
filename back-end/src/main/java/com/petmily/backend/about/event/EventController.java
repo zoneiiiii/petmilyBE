@@ -35,7 +35,7 @@ public class EventController {
 	@GetMapping("/list")
 	public Page<EventList> getList(
 			@RequestParam(value="page", defaultValue="0") int page, 
-			@RequestParam(value="limit", defaultValue="20") int limit, 
+			@RequestParam(value="limit", defaultValue="10") int limit, 
 			@RequestParam(value="search", defaultValue="") String search, 
 			@RequestParam(value="search_mode", defaultValue="subject") String search_mode) {
 		Page<EventList> paging = null;

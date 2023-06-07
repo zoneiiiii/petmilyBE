@@ -55,7 +55,7 @@ public class ProductService {
 		} else {
 			System.out.println("else");
 			productRepository.addCart(addCart.getBoardNum(), addCart.getMemberId(), addCart.getProductName(),
-					addCart.getProductCost(), addCart.getImgThumbnail(), addCart.getQuantity());
+					addCart.getProductCost(), addCart.getQuantity());
 		}
 	}
 	
