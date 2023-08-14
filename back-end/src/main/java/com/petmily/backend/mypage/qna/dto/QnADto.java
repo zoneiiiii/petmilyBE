@@ -16,4 +16,6 @@ public class QnADto {
 	private String qnaImg;
 	private Date qnaDate;
 	private String adminAnswer;
+	
+	private String memberId;
 }

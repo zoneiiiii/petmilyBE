@@ -50,6 +50,7 @@ public class QnAService {
     }   
          
     private QnADto convertToDto(QnABoard qna) {
+    	Member member = memberService.getMemberByNum(qna.getMemberNum());
     	QnADto qnaDto = new QnADto();
     	qnaDto.setBoardNum(qna.getBoardNum());
     	qnaDto.setMemberNum(qna.getMemberNum());
@@ -60,8 +61,9 @@ public class QnAService {
     	qnaDto.setQnaImg(qna.getQnaImg());
     	qnaDto.setQnaDate(qna.getQnaDate());
     	qnaDto.setAdminAnswer(qna.getAdminAnswer());
-
-        return qnaDto;
+    	qnaDto.setMemberId(member.getMemberId());
+    	
+    	return qnaDto;
     }
 
     public QnADto createQnaPost(QnADto qnaDto, String memberId){
@@ -76,6 +78,7 @@ public class QnAService {
         qna.setQnaDate(qnaDto.getQnaDate());
         qna.setQnaStatus(qnaDto.getQnaStatus());
         qna.setAdminAnswer(qnaDto.getAdminAnswer());
+    
         qnaRepository.save(qna);
 
         return convertToDto(qna);
